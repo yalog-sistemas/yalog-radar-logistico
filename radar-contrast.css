@@ -76,3 +76,15 @@
  #perfKpis .perf-kpi .kl{color:#3f5f6f!important;font-size:10px!important;line-height:1.5!important;font-weight:600}
  #perfKpis .perf-icon{font-size:16px;line-height:1.4}
 }
+
+@media screen{
+ .perf-rate{display:inline-flex;align-items:center;gap:7px;white-space:nowrap;font-size:12px;font-weight:750;line-height:1.5;padding:4px 8px;border-radius:5px;--rate-color:#526e7c;color:var(--rate-color)!important}
+ .perf-rate--danger{--rate-color:#a22e3e;background:#fcecee}
+ .perf-rate--info{--rate-color:#245d86;background:#edf4fb}
+ .perf-rate--success{--rate-color:#1b6847;background:#eaf6ee}
+ .perf-rate-dot{display:inline-block;width:7px;height:7px;flex:0 0 7px;border-radius:50%;background:var(--rate-color);box-shadow:0 0 0 2px #ffffffaa}
+ .perf-rate-legend{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:12px 0 0;padding:9px 12px;border:1px solid #cddfe7;background:#ffffffee;border-radius:7px;font-size:11px;color:#496977}
+ .perf-rate-legend .perf-rate{font-size:11px;font-weight:600}
+ #perfKpis .perf-rate{font-size:inherit;padding:0;background:transparent;gap:9px}
+ #perfKpis .perf-rate-dot{width:9px;height:9px;flex-basis:9px}
+}

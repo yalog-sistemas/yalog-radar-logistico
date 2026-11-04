@@ -744,6 +744,7 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
   <div class="ey">INDICADORES</div><div class="title">Performance das <em>Transportadoras</em></div><div class="sub">Painel principal da transportadora ou visão consolidada da embarcadora. O perfil transportadora mostra somente os próprios dados.</div>
   <div id="perfKpis" class="kpis"></div>
 
+<div class="perf-rate-legend"><span>Faróis de SLA e eficiência:</span><span class="perf-rate perf-rate--danger"><i class="perf-rate-dot" aria-hidden="true"></i>Até 85%</span><span class="perf-rate perf-rate--info"><i class="perf-rate-dot" aria-hidden="true"></i>Acima de 85% até 95%</span><span class="perf-rate perf-rate--success"><i class="perf-rate-dot" aria-hidden="true"></i>Acima de 95%</span></div>
   <div class="table" style="margin-top:15px"><table><thead><tr><th>Transportadora</th><th>Cargas</th><th>Entregues</th><th>No prazo</th><th>Atrasadas</th><th>Insucesso</th><th>SLA</th><th>Eficiência</th></tr></thead><tbody id="perfb"></tbody></table></div>
 </section>
 
@@ -2522,6 +2523,8 @@ function renderExec(){
   save();
 }
 
+function radarPerformanceTone(value){const n=Number(value);if(!Number.isFinite(n))return 'neutral';const shown=Math.round(n*100)/100;return shown>95?'success':shown>85?'info':'danger'}
+function radarPerformanceRate(value,label){const n=Number(value),tone=radarPerformanceTone(value);if(!Number.isFinite(n))return '<span class="perf-rate perf-rate--neutral">—</span>';const text=num(n)+'%',range=tone==='success'?'acima de 95%':tone==='info'?'acima de 85% até 95%':'até 85%';return '<span class="perf-rate perf-rate--'+tone+'" title="'+label+': '+text+' · '+range+'" aria-label="'+label+': '+text+', '+range+'"><span class="perf-rate-dot" aria-hidden="true"></span><span>'+text+'</span></span>'}
 function renderPerformance(){
   ensureFreteData();
   let role=D.config?.perfilDemo||'EMBARCADORA',selectedId=D.config?.demoTransportadoraId||'',scoped=radarDashCargas();
@@ -2532,8 +2535,8 @@ function renderPerformance(){
   });
   let total=rows.reduce((s,r)=>s+r.cs.length,0),ont=rows.reduce((s,r)=>s+r.ont.length,0),quotesPending=rows.reduce((s,r)=>s+r.pending,0),quotesReceived=rows.reduce((s,r)=>s+r.received,0),inProgress=rows.reduce((s,r)=>s+r.cs.filter(c=>['LIBERADA PARA COLETA','EM PROCESSO DE COLETA','CARGA EM ROTA','RISCO DE ATRASO','ATRASADO'].includes(c.status)).length,0),alerts=rows.reduce((s,r)=>s+r.late.length+r.fail.length+r.sinistro.length,0);
   let k=document.getElementById('perfKpis'),prefix=role==='TRANSPORTADORA'?'SUA OPERAÇÃO':'OPERAÇÃO';
-  if(k)k.innerHTML=[['🚚',names.length,prefix==='SUA OPERAÇÃO'?'TRANSPORTADORA':'TRANSPORTADORAS','info'],['▣',total,'CARGAS','info'],['✓',ont,'ENTREGAS NO PRAZO','success'],['%',total?num(ont/total*100)+'%':'0%','EFICIÊNCIA','teal'],['◷',quotesPending,'COTAÇÕES PENDENTES',quotesPending?'warning':'success'],['✓',quotesReceived,'COTAÇÕES RESPONDIDAS','success'],['➜',inProgress,'CARGAS EM ANDAMENTO','info'],['!',alerts,'ALERTAS / PENDÊNCIAS',alerts?'danger':'success']].map(x=>`<div class="kpi perf-kpi" data-tone="${x[3]}"><div class="perf-icon">${x[0]}</div><div class="kv">${x[1]}</div><div class="kl">${x[2]}</div></div>`).join('');
-  document.getElementById('perfb').innerHTML=rows.length?rows.map(r=>`<tr><td><b>${esc(r.t.nome)}</b></td><td>${r.cs.length}</td><td>${r.del.length}</td><td>${r.ont.length}</td><td>${r.late.length}</td><td>${r.fail.length}</td><td>${num(r.slaPct)}%</td><td>${num(r.eff)}%</td></tr>`).join(''):'<tr><td colspan="8"><div class="empty">Nenhuma transportadora cadastrada.</div></td></tr>';
+  if(k)k.innerHTML=[['🚚',names.length,prefix==='SUA OPERAÇÃO'?'TRANSPORTADORA':'TRANSPORTADORAS','info'],['▣',total,'CARGAS','info'],['✓',ont,'ENTREGAS NO PRAZO','success'],['%',radarPerformanceRate(total?ont/total*100:0,'Eficiência geral'),'EFICIÊNCIA',radarPerformanceTone(total?ont/total*100:0)],['◷',quotesPending,'COTAÇÕES PENDENTES',quotesPending?'warning':'success'],['✓',quotesReceived,'COTAÇÕES RESPONDIDAS','success'],['➜',inProgress,'CARGAS EM ANDAMENTO','info'],['!',alerts,'ALERTAS / PENDÊNCIAS',alerts?'danger':'success']].map(x=>`<div class="kpi perf-kpi" data-tone="${x[3]}"><div class="perf-icon">${x[0]}</div><div class="kv">${x[1]}</div><div class="kl">${x[2]}</div></div>`).join('');
+  document.getElementById('perfb').innerHTML=rows.length?rows.map(r=>`<tr><td><b>${esc(r.t.nome)}</b></td><td>${r.cs.length}</td><td>${r.del.length}</td><td>${r.ont.length}</td><td>${r.late.length}</td><td>${r.fail.length}</td><td>${radarPerformanceRate(r.slaPct,'SLA')}</td><td>${radarPerformanceRate(r.eff,'Eficiência')}</td></tr>`).join(''):'<tr><td colspan="8"><div class="empty">Nenhuma transportadora cadastrada.</div></td></tr>';
 }
 
 const DASH_VIEWS=new Set(['executivo','pedidos','faturamento','cotacoes','coleta','ocorrencias','entregas','custos']);
@@ -3208,7 +3211,7 @@ body:before{
 <link rel="stylesheet" href="yalog-radar-background.css?v=20261103">
 <link rel="stylesheet" href="radar-layout.css?v=075">
 <link rel="stylesheet" href="yalog-radar-light.css?v=079">
-<link rel="stylesheet" href="radar-contrast.css?v=082">
+<link rel="stylesheet" href="radar-contrast.css?v=083">
 <link rel="stylesheet" href="radar-routing.css?v=078">
 </body>
 </html>
