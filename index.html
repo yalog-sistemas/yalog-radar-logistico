@@ -463,10 +463,11 @@ body:not(.radar-authenticated) .app{display:none!important}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="radar-access.js?v=078"></script>
-<script src="radar-routing.js?v=079"></script>
+<script src="radar-access.js?v=086"></script>
+<script src="radar-routing.js?v=086"></script>
 <script src="radar-performance.js?v=085"></script>
-<script src="radar-performance-analytics.js?v=085"></script>
+<script src="radar-performance-analytics.js?v=086"></script>
+<script src="radar-deliveries.js?v=086"></script>
 <style id="yalog-entry-transition">
 html.yalog-entering{background:#e7f3f7 url('https://yalog-sistemas.github.io/yalog-ecosystem/assets/logistics-welcome.webp') center/cover fixed no-repeat}
 html.yalog-entering body{min-height:100vh;background:transparent!important}
@@ -608,8 +609,8 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
 
 <section id="p-exec" class="page">
   <div class="ey">ETAPA 06 · OPERAÇÃO</div><div class="title">Execução / <em>Entregas</em></div><div class="sub">Fila operacional das cargas já faturadas e liberadas. A transportadora visualiza somente suas cargas e pode tratar a fila em ordem FIFO, da mais antiga para a mais recente.</div>
-  <div class="filters"><div class="fg grow"><label>Buscar</label><input id="exq" placeholder="Carga, NF, transportadora, destino..."></div><div class="fg"><label>Status</label><select id="exs"><option value="">Todos</option><option>LIBERADA PARA COLETA</option><option>EM SEPARAÇÃO</option><option>EM CONFERÊNCIA</option><option>AGUARDANDO CARREGAMENTO</option><option>EM PROCESSO DE COLETA</option><option>CARGA EM ROTA</option><option>RISCO DE ATRASO</option><option>ATRASADO</option><option>SINISTRO</option><option>ENTREGA REALIZADA</option><option>ENTREGA REALIZADA COM INSUCESSO</option><option>ENTREGUE COM ATRASO</option><option>OUTROS</option></select></div><div class="fg"><label>Fila</label><select id="exfifo"><option value="FIFO">FIFO · Mais antiga primeiro</option><option value="RECENTE">Mais recente primeiro</option></select></div><button class="btn outline" onclick="renderExec()">Filtrar</button></div>
-  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Destino</th><th>SLA</th><th>Previsão</th><th>Status</th><th>Ocorrência</th><th>Observações</th><th class="execution-actions-heading">Ações</th></tr></thead><tbody id="exb"></tbody></table></div>
+  <div class="filters"><div class="fg grow"><label>Buscar</label><input id="exq" placeholder="Carga, NF, transportadora, destino..."></div><div class="fg"><label>Status</label><select id="exs"><option value="">Todos</option><option>SEM BAIXA INDIVIDUAL</option><option>ENTREGA PARCIAL</option><option>EM ENTREGA / PENDÊNCIAS</option><option>LIBERADA PARA COLETA</option><option>EM SEPARAÇÃO</option><option>EM CONFERÊNCIA</option><option>AGUARDANDO CARREGAMENTO</option><option>EM PROCESSO DE COLETA</option><option>CARGA EM ROTA</option><option>RISCO DE ATRASO</option><option>ATRASADO</option><option>SINISTRO</option><option>ENTREGA REALIZADA</option><option>ENTREGA REALIZADA COM INSUCESSO</option><option>ENTREGUE COM ATRASO</option><option>OUTROS</option></select></div><div class="fg"><label>Visualizar por</label><select id="exview" onchange="renderExec()"><option value="CARGA">Carga</option><option value="NF">Nota fiscal</option></select></div><div class="fg"><label>Fila</label><select id="exfifo"><option value="FIFO">FIFO · Mais antiga primeiro</option><option value="RECENTE">Mais recente primeiro</option></select></div><button class="btn outline" onclick="renderExec()">Filtrar</button></div>
+  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Destino</th><th>SLA</th><th>Previsão</th><th>Status</th><th>Ocorrência</th><th>Evento efetivo</th><th class="execution-actions-heading">Ações</th></tr></thead><tbody id="exb"></tbody></table></div>
 </section>
 
 
@@ -1229,7 +1230,7 @@ window.RADAR_DASH_STATE=RADAR_DASH_STATE;
 const RADAR_GEOJSON_URL='https://cdn.jsdelivr.net/gh/henriquemalvar/br-geojson@main/dist/estados.geojson';
 const RADAR_DASH_STATUS_GROUPS={
  preparacao:['CARGA FORMADA','EM COTAÇÃO','FRETE RECEBIDO','EM ANÁLISE','FRETE APROVADO'],
- execucao:['LIBERADA PARA COLETA','EM SEPARAÇÃO','EM CONFERÊNCIA','AGUARDANDO CARREGAMENTO','EM PROCESSO DE COLETA','CARGA EM ROTA'],
+ execucao:['LIBERADA PARA COLETA','EM SEPARAÇÃO','EM CONFERÊNCIA','AGUARDANDO CARREGAMENTO','EM PROCESSO DE COLETA','CARGA EM ROTA','ENTREGA PARCIAL','EM ENTREGA / PENDÊNCIAS'],
  risco:['RISCO DE ATRASO'],atraso:['ATRASADO','ENTREGUE COM ATRASO'],sinistro:['SINISTRO'],
  entrega:['ENTREGA REALIZADA','ENTREGA REALIZADA COM INSUCESSO','ENTREGUE COM ATRASO']
 };
@@ -2369,7 +2370,7 @@ function billingRenderFiscalDocs(c){
   return docs.map((d,i)=>`<tr data-fiscal-row="${d.id}"><td><input id="fiscal_nf_${d.id}" value="${esc(d.numero||'')}" placeholder="Nº NF" style="min-width:90px"></td><td><span class="muted" title="${esc(d.chave||'')}">${esc(d.chave?d.chave.slice(0,18)+'…':'—')}</span></td><td>${d.valor?money(d.valor):'—'}</td><td>${d.xml_conteudo?'<span class="badge b-green">XML OK</span>':'<span class="badge b-amber">Pendente</span>'}<input id="fiscal_xml_${d.id}" type="file" accept=".xml,text/xml" style="max-width:190px;margin-top:6px"></td><td>${d.nf_pdf_data?'<span class="badge b-green">PDF OK</span>':'<span class="muted">Opcional</span>'}<input id="fiscal_pdf_${d.id}" type="file" accept=".pdf,application/pdf" style="max-width:190px;margin-top:6px"></td><td>${d.xml_conteudo?'<span class="badge b-green">OK</span>':'<span class="badge b-amber">Pendente</span>'}</td><td><button class="btn outline" onclick="removeBillingFiscalDoc('${c.id}','${d.id}')">Remover</button></td></tr>`).join('');
 }
 function addBillingFiscalDoc(cId){const c=cargo(cId);if(!c)return;c.documentos_fiscais=Array.isArray(c.documentos_fiscais)?c.documentos_fiscais:billingFiscalDocs(c);c.documentos_fiscais.push({id:uid(),numero:'',serie:'',chave:'',data_emissao:'',valor:0,peso:0,emitente:'',destinatario:'',xml_conteudo:'',xml_nome:'',nf_pdf_data:'',nf_pdf_name:'',criado_em:new Date().toISOString()});save();openBillingModal(cId)}
-function removeBillingFiscalDoc(cId,docId){const c=cargo(cId);if(!c)return;c.documentos_fiscais=billingFiscalDocs(c).filter(d=>d.id!==docId);save();openBillingModal(cId)}
+function removeBillingFiscalDoc(cId,docId){const c=cargo(cId);if(!c)return;const removing=billingFiscalDocs(c).find(d=>d.id===docId);if(removing&&window.radarInvoiceDeliveryKey&&c.entregas_nf?.[radarInvoiceDeliveryKey(removing)])return toast('Esta NF possui histórico de entrega e deve ser preservada.');c.documentos_fiscais=billingFiscalDocs(c).filter(d=>d.id!==docId);save();openBillingModal(cId)}
 async function importBillingXmls(cId,files){const c=cargo(cId);if(!c||!files?.length)return;c.documentos_fiscais=Array.isArray(c.documentos_fiscais)?c.documentos_fiscais:billingFiscalDocs(c);for(const file of Array.from(files)){try{const xml=await file.text();const d=billingParseXml(xml,file.name);if(!d.numero){toast(`Não foi possível identificar o Nº NF no arquivo ${file.name}.`);continue}const same=c.documentos_fiscais.find(x=>String(x.numero)===String(d.numero));if(same)Object.assign(same,d,{id:same.id,nf_pdf_data:same.nf_pdf_data||'',nf_pdf_name:same.nf_pdf_name||''});else c.documentos_fiscais.push(d)}catch(e){toast(`Falha ao processar ${file.name}.`)}}save();openBillingModal(cId);toast(`${files.length} XML(s) processado(s).`)}
 function billingStatus(c){const docs=billingFiscalDocs(c);if(c?.faturamento_concluido)return 'FATURADA / LIBERADA';if(!docs.length)return 'AGUARDANDO FATURAMENTO';const valid=docs.filter(d=>d.numero&&d.xml_conteudo).length;if(valid>0)return 'FATURAMENTO PARCIAL';return 'AGUARDANDO FATURAMENTO'}
 function openBillingModal(cId){
@@ -2425,7 +2426,7 @@ function executionStatusClass(value){
   if(/SINISTRO/.test(s))return'sinistro';
   if(/ENTREGA REALIZADA$|CONCLU[IÍ]D|LIBERADA/.test(s))return'green';
   if(/EM ROTA|EM EXECU[CÇ][AÃ]O|PROCESSO DE COLETA/.test(s))return'cyan';
-  if(/ATEN[CÇ][AÃ]O|AGUARDANDO|PEND[EÊ]NCIA|RISCO/.test(s))return'yellow';
+  if(/PARCIAL|PENDÊNCIAS|ATEN[CÇ][AÃ]O|AGUARDANDO|PEND[EÊ]NCIA|RISCO/.test(s))return'yellow';
   if(/TRATATIVA/.test(s))return'orange';
   if(/ATRASADO|BLOQUEAD|INSUCESSO|CR[IÍ]TIC/.test(s))return'red';
   return'gray';
@@ -2538,7 +2539,7 @@ function renderPerformance(){
     let cs=scoped.filter(c=>c.transportadora_id===t.id||c.transportadora===t.nome),del=cs.filter(c=>['ENTREGA REALIZADA','ENTREGUE COM ATRASO','ENTREGA REALIZADA COM INSUCESSO'].includes(c.status)),ont=cs.filter(c=>c.status==='ENTREGA REALIZADA'),late=cs.filter(c=>['ENTREGUE COM ATRASO','ATRASADO','RISCO DE ATRASO'].includes(c.status)),fail=cs.filter(c=>c.status==='ENTREGA REALIZADA COM INSUCESSO'),sinistro=cs.filter(c=>c.status==='SINISTRO'),quotes=(D.cotacoes||[]).filter(q=>q.transportadora_id===t.id),pending=quotes.filter(q=>quoteStatus(q)==='AGUARDANDO RETORNO').length,received=quotes.filter(q=>['RECEBIDO','APROVADA'].includes(quoteStatus(q))).length,eff=del.length?ont.length/del.length*100:0,slaPct=del.length?del.filter(c=>!['ENTREGUE COM ATRASO','ATRASADO'].includes(c.status)).length/del.length*100:100,freight=quotes.filter(q=>q.status==='APROVADA').reduce((s,q)=>s+Number(q.valor_frete||0),0);
     return {t,cs,del,ont,late,fail,sinistro,quotes,pending,received,eff,slaPct,freight};
   });
-  let total=rows.reduce((s,r)=>s+r.cs.length,0),ont=rows.reduce((s,r)=>s+r.ont.length,0),quotesPending=rows.reduce((s,r)=>s+r.pending,0),quotesReceived=rows.reduce((s,r)=>s+r.received,0),inProgress=rows.reduce((s,r)=>s+r.cs.filter(c=>['LIBERADA PARA COLETA','EM PROCESSO DE COLETA','CARGA EM ROTA','RISCO DE ATRASO','ATRASADO'].includes(c.status)).length,0),alerts=rows.reduce((s,r)=>s+r.late.length+r.fail.length+r.sinistro.length,0);
+  let total=rows.reduce((s,r)=>s+r.cs.length,0),ont=rows.reduce((s,r)=>s+r.ont.length,0),quotesPending=rows.reduce((s,r)=>s+r.pending,0),quotesReceived=rows.reduce((s,r)=>s+r.received,0),inProgress=rows.reduce((s,r)=>s+r.cs.filter(c=>['LIBERADA PARA COLETA','EM PROCESSO DE COLETA','CARGA EM ROTA','RISCO DE ATRASO','ATRASADO','ENTREGA PARCIAL','EM ENTREGA / PENDÊNCIAS'].includes(c.status)).length,0),alerts=rows.reduce((s,r)=>s+r.late.length+r.fail.length+r.sinistro.length,0);
   let k=document.getElementById('perfKpis'),prefix=role==='TRANSPORTADORA'?'SUA OPERAÇÃO':'OPERAÇÃO';
   if(k)k.innerHTML=[['🚚',names.length,prefix==='SUA OPERAÇÃO'?'TRANSPORTADORA':'TRANSPORTADORAS','info'],['▣',total,'CARGAS','info'],['✓',ont,'ENTREGAS NO PRAZO','success'],['%',radarPerformanceRate(total?ont/total*100:0,'Eficiência geral'),'EFICIÊNCIA',radarPerformanceTone(total?ont/total*100:0)],['◷',quotesPending,'COTAÇÕES PENDENTES',quotesPending?'warning':'success'],['✓',quotesReceived,'COTAÇÕES RESPONDIDAS','success'],['➜',inProgress,'CARGAS EM ANDAMENTO','info'],['!',alerts,'ALERTAS / PENDÊNCIAS',alerts?'danger':'success']].map(x=>`<div class="kpi perf-kpi" data-tone="${x[3]}"><div class="perf-icon">${x[0]}</div><div class="kv">${x[1]}</div><div class="kl">${x[2]}</div></div>`).join('');
   document.getElementById('perfb').innerHTML=rows.length?rows.map(r=>`<tr><td><b>${esc(r.t.nome)}</b></td><td>${r.cs.length}</td><td>${r.del.length}</td><td>${r.ont.length}</td><td>${r.late.length}</td><td>${r.fail.length}</td><td>${radarPerformanceRate(r.slaPct,'SLA')}</td><td>${radarPerformanceRate(r.eff,'Eficiência')}</td></tr>`).join(''):'<tr><td colspan="8"><div class="empty">Nenhuma transportadora cadastrada.</div></td></tr>';
@@ -2849,6 +2850,7 @@ async function radarBootAuthenticated(){
     renderAll();
     installRadarRouting();
     installRadarAccess();
+    installRadarDeliveries();
     document.documentElement.classList.remove('yalog-entering');
     show(D.config?.perfilDemo==='TRANSPORTADORA'?'cotacao':'home');
     initResponsiveNumberObserver();
@@ -3217,7 +3219,7 @@ body:before{
 <link rel="stylesheet" href="yalog-radar-background.css?v=20261103">
 <link rel="stylesheet" href="radar-layout.css?v=075">
 <link rel="stylesheet" href="yalog-radar-light.css?v=079">
-<link rel="stylesheet" href="radar-contrast.css?v=085">
+<link rel="stylesheet" href="radar-contrast.css?v=086">
 <link rel="stylesheet" href="radar-routing.css?v=078">
 </body>
 </html>

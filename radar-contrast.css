@@ -112,3 +112,10 @@
  .analytic-status.success{background:#eaf6ee;color:#1b6847}.analytic-status.danger{background:#fcecee;color:#a22e3e}.analytic-status.warning{background:#fff4df;color:#7b5512}
  #performanceExportStatus{flex:1 1 100%;font-size:12px;color:#496977}#performanceExportStatus:empty{display:none}
 }
+.delivery-position{margin:18px 0;padding:16px;border:1px solid #bfd4df;border-radius:9px;background:#f2f7fa;color:#173f50}
+.delivery-position legend{font-weight:700}.delivery-position p,.delivery-route-summary p{font-size:12px;color:#456777}
+.delivery-route-summary{padding:12px;background:#eef6f8;border-radius:8px;margin:10px 0;color:#173f50}
+.road-pin.delivery-pin-success span{background:#00845c!important}.road-pin.delivery-pin-warning span{background:#b56a00!important}.road-pin.delivery-pin-info span{background:#2676a4!important}
+.delivery-truck span{display:grid;place-items:center;width:42px;height:42px;background:white;border:3px solid #1e6588;border-radius:50%;font-size:26px;box-shadow:0 2px 7px #183e5066}
+.delivery-stop-success{color:#007951!important}.delivery-stop-warning{color:#915500!important}.delivery-stop-info{color:#22648c!important}
+#deliveryFields details{margin:15px 0}#deliveryMessage{color:#9e3b12;font-weight:600}#exb td small{display:block;margin-top:4px}#vehicleMessage{display:block;padding-top:8px}

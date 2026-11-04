@@ -19,7 +19,7 @@ window.installRadarAccess=function(){
    document.querySelectorAll('#radarUserProfile option[value="GESTOR"]').forEach(o=>{o.hidden=radarProfile!=='MASTER';o.disabled=radarProfile!=='MASTER'});
    if(radarCanWrite())return;
    document.querySelectorAll('[onclick],[onchange],[oninput]').forEach(e=>{const action=['onclick','onchange','oninput'].map(k=>e.getAttribute(k)||'').join(';');if(mutationPattern.test(action)){e.hidden=true;e.disabled=true}});
-   document.querySelectorAll('.modal input,.modal select,.modal textarea,#modal input,#modal select,#modal textarea,input[type="file"],[contenteditable="true"]').forEach(e=>{e.disabled=true;if(e.hasAttribute('contenteditable'))e.setAttribute('contenteditable','false')});
+   document.querySelectorAll('.modal input,.modal select,.modal textarea,#modal input,#modal select,#modal textarea,input[type="file"],[contenteditable="true"]').forEach(e=>{if(radarProfile==='TRANSPORTADORA'&&(e.closest('#deliveryFields')||e.id==='deliveryInvoice'))return;e.disabled=true;if(e.hasAttribute('contenteditable'))e.setAttribute('contenteditable','false')});
   }
   lock();let pending=false;new MutationObserver(()=>{if(!pending){pending=true;queueMicrotask(()=>{pending=false;lock()})}}).observe(document.body,{childList:true,subtree:true});
  }
