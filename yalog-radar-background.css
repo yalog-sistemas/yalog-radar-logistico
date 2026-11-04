@@ -10,5 +10,6 @@
  .page>.head,.page>.dash-head{padding:16px 18px;background:rgba(255,255,255,.95)!important;color:#193e50!important;border:1px solid #cbdce4;border-radius:10px}
  .page>.head .ct,.page>.dash-head h2,.page>.dash-head h3{color:#193e50!important}
  #radarAuthGate{background:transparent!important}
+ .radar-auth-card{background:rgba(3,27,43,.97)!important;color:#eaf8ff!important}
  @media(max-width:720px){body{background-position:64% center!important;background-attachment:scroll!important}}
 }
