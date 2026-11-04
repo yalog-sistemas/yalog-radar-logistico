@@ -29,3 +29,6 @@ Testes cobrem minimização em matriz assimétrica, primeira entrega fixa, desti
 - Transportadoras autenticadas e vinculadas recebem somente cargas disponibilizadas a elas e suas próprias cotações. Podem revisar a sequência dessas cargas pelo serviço exclusivo de rota; não podem gravar a base completa, ver preços de concorrentes ou alterar cargas encerradas/canceladas. As alterações registram usuário e data e ficam visíveis para a embarcadora.
 - Controle de versão impede sobrescrever uma atualização concorrente. Em caso de conflito, reabra a rota.
 - Testes adicionais: formação automática, impressão de rota salva e prévia, perfil de transportadora, gravação restrita, cargas encerradas, isolamento entre transportadoras, preservação de documentos/preços e conflitos de versão.
+
+## Formação automática: apresentação das propostas (v079)
+A ação Pré-visualizar rota fica junto ao descritivo de cada trajeto, na terceira coluna, em vez de ficar escondida no fim da tabela. A coluna da rota permanece visível durante a rolagem horizontal. Linhas claras, texto azul-escuro e campos contrastantes preservam a identidade visual do Radar. Aplicar sequência no mapa atualiza o trajeto e os quilômetros na proposta sem reconstruir a lista nem perder veículo, capacidade ou seleção. A aprovação continua usando os pedidos e metadados da rota aplicada.

@@ -160,7 +160,7 @@
    return;
   }
   drafts.set(fingerprint(ids,s.origin.city,s.origin.uf),{ids,plan});
-  if(s.kind==='auto'){const p=window.autoPlans?.[s.index];if(!p||[...p.ids].sort().join(',')!==[...ids].sort().join(','))return status('A proposta mudou. Reabra a rota.',true);p.ids=ids;p.routeItems=ids.map(id=>D.nfs.find(n=>n.id===id));p.destinos=plan.order;p.road_route=plan}
+  if(s.kind==='auto'){const p=window.autoPlans?.[s.index];if(!p||[...p.ids].sort().join(',')!==[...ids].sort().join(','))return status('A proposta mudou. Reabra a rota.',true);p.ids=ids;p.routeItems=ids.map(id=>D.nfs.find(n=>n.id===id));p.destinos=plan.order;p.road_route=plan;window.radarRefreshAutoPlanRow?.(s.index)}
   if(s.kind==='selection'){selected=new Set(ids);if(window.__previewLoad)window.__previewLoad.ids=ids}
   if(s.kind==='editor'){const input=document.getElementById('ld');if(input)input.value=s.order.map(i=>s.stops[i].city).join(' / ')}
   if(s.kind==='saved'){const c=D.cargas.find(c=>c.id===s.cargoId);if(!c)return;attach(c,ids);audit('ROTA_RODOVIARIA','#'+c.numero,plan.order.join(' → ')+' · '+plan.distance_km.toFixed(1)+' km');save();renderAll()}
@@ -219,7 +219,7 @@
   if(window.radarRoadInstalled)return;window.radarRoadInstalled=true;
   const oldDistance=window.routeDistanceKm;if(typeof oldDistance==='function')window.routeDistanceKm=c=>window.radarRoadDistance(c)??oldDistance(c);
   window.previewRouteModal=()=>{const ids=window.__previewLoad?.ids||[...selected];open(ids,{kind:'selection'})};
-  window.showRoutePlan=index=>{const p=window.autoPlans?.[index];if(p)open(p.ids,{kind:'auto',index})};
+  window.showRoutePlan=index=>{const p=window.autoPlans?.[index];if(p)open(p.ids,{kind:'auto',index,plan:p.road_route})};
   const loadBase=window.loadModal;
   window.loadModal=function(c=null,ids=[]){const result=loadBase(c,ids);if(result===false||!write())return result;const actualIds=c?.nf_ids||ids;if(!actualIds.length)return result;addButton(()=>open(actualIds,{kind:'editor',origin:document.getElementById('lo')?.value||c?.origem,originUf:c?.uf_origem,plan:c?.road_route}),'Mapa, sequência e km');return result};
   for(const name of ['openLoad','quoteRequestDetails']){const base=window[name];if(typeof base!=='function')continue;window[name]=function(id,...args){const result=base(id,...args);const c=D.cargas.find(c=>c.id===id)||D.cargas.find(c=>D.cotacoes.some(q=>q.id===id&&q.carga_id===c.id));if(c)addButton(()=>open(c.nf_ids||[],{kind:'saved',cargoId:c.id,origin:c.origem,originUf:c.uf_origem,plan:c.road_route}),'Mapa e sequência de entregas');return result}}

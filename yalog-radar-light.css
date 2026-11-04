@@ -104,3 +104,25 @@
  @media(max-width:650px){.content{padding:16px 10px!important}.page>.ey{padding:16px 15px 0}.page>.title{padding:6px 15px}.page>.sub{padding:4px 15px 16px}.hero{padding:20px}.filters{padding:12px}.logo{font-size:16px!important}}
  @media(prefers-reduced-motion:reduce){.status-farol--sinistro::before{animation:none!important}}
 }
+@media screen{
+ #ar .auto-plan{overflow:auto!important;max-height:min(48dvh,520px);border:1px solid #c4d8e2!important;background:#fff!important;isolation:isolate;scrollbar-color:#91aebc #edf4f7}
+ #ar .auto-plan table{min-width:1320px;width:100%;border-collapse:separate!important;border-spacing:0!important;overflow:visible!important;font-family:'Segoe UI',Arial,sans-serif!important}
+ #ar .auto-plan thead th{position:sticky;top:0;z-index:12;background:#173f50!important;color:#fff!important;border-color:#315c70!important;font-size:10px;padding:12px 10px!important}
+ #ar .auto-plan tbody tr>td{background:#fff!important;color:#173f50!important;border-bottom:1px solid #d5e2e8!important;padding:12px 10px!important;vertical-align:middle!important;font-size:12px;font-weight:500}
+ #ar .auto-plan tbody tr:nth-child(even)>td{background:#f1f6f9!important}
+ #ar .auto-plan tbody tr:hover>td,#ar .auto-plan tbody tr:focus-within>td{background:#e5f2f7!important;color:#123b4e!important}
+ #ar .auto-plan th:nth-child(1),#ar .auto-plan td:nth-child(1){position:sticky;left:0;min-width:42px;width:42px;max-width:42px;box-sizing:border-box;z-index:8}
+ #ar .auto-plan th:nth-child(2),#ar .auto-plan td:nth-child(2){position:sticky;left:42px;min-width:78px;width:78px;max-width:78px;box-sizing:border-box;z-index:8;white-space:nowrap}
+ #ar .auto-plan th:nth-child(3),#ar .auto-plan td:nth-child(3){position:sticky;left:120px;min-width:260px;width:260px;max-width:300px;box-sizing:border-box;z-index:8;box-shadow:2px 0 #bcd2dd}
+ #ar .auto-plan thead th:nth-child(-n+3){z-index:15}
+ #ar .auto-route-label{white-space:normal;line-height:1.5;color:#173f50!important;font-weight:650;margin-bottom:8px}
+ #ar .auto-route-button{display:inline-flex;align-items:center;justify-content:center;padding:8px 11px!important;min-height:34px;background:#216b86!important;color:#fff!important;border:1px solid #216b86!important;border-radius:5px;font-size:11px!important;white-space:nowrap}
+ #ar .auto-route-button:hover{background:#174e65!important;border-color:#174e65!important}
+ #ar .auto-route-button:focus-visible{outline:3px solid #ed7b2a;outline-offset:2px}
+ #ar .auto-route-distance{display:block;margin-top:6px;font:11px/1.4 'Segoe UI',Arial,sans-serif;color:#496b7b!important;white-space:normal}
+ #ar .auto-plan .auto-type{min-width:220px;max-width:280px;height:36px;background:#fff!important;color:#173f50!important;border:1px solid #a8c3d0!important;border-radius:5px;padding:6px}
+ #ar .auto-plan .auto-cap{min-width:85px;width:100px;max-width:110px;height:36px;background:#fff!important;color:#173f50!important;border:1px solid #a8c3d0!important;border-radius:5px;padding:6px}
+ #ar .auto-plan [data-occupancy]{color:#175c45!important;font-size:13px}
+ #ar .auto-plan .dash-mini-note{color:#526e7d!important;white-space:normal;min-width:130px}
+ @media(max-width:650px){#ar .auto-plan th:nth-child(3),#ar .auto-plan td:nth-child(3){min-width:200px;width:200px;max-width:220px}#ar .auto-plan tbody tr>td{padding:10px 7px!important}}
+}
