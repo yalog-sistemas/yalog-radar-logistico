@@ -565,11 +565,12 @@ body:not(.radar-authenticated) .app{display:none!important}
 </section>
 
 <section id="p-form" class="page">
-  <div class="ey">ETAPA 02 · EMBARCADORA</div><div class="title">Formação / <em>Roteirização</em></div><div class="sub">Agrupe pedidos manualmente por filtros ou gere uma proposta automática de cargas.</div>
-  <div class="actions" style="margin-bottom:15px"><button class="btn primary" onclick="generate()">☷ Gerar Carga da Seleção</button><button class="btn blue" onclick="previewLoadModal()">▣ PRÉ-VISUALIZAR CARGA</button><button class="btn blue" onclick="autoModal()">⚙ Formação Automática</button><button class="btn outline" onclick="clearSel()">Limpar seleção</button></div>
+  <div class="ey">ETAPA 02 · EMBARCADORA</div><div class="title">Formação / <em>Roteirização</em></div>
+  <div class="actions formation-actions"><button class="btn primary" onclick="generate()">☷ Gerar Carga da Seleção</button><button class="btn blue" onclick="previewLoadModal()">▣ PRÉ-VISUALIZAR CARGA</button><button class="btn blue" onclick="autoModal()">⚙ Formação Automática</button><button class="btn outline" onclick="clearSel()">Limpar seleção</button></div>
+  <p class="formation-help">Selecione os pedidos na tabela para gerar ou pré-visualizar uma carga. Para receber uma sugestão de agrupamento, use <strong>Formação automática</strong>.</p>
   <div class="filters"><div class="fg"><label>UF destino</label><select id="mu"></select></div><div class="fg"><label>Cidade</label><input id="mcidade" placeholder="Cidade"></div><div class="fg"><label>Cliente</label><input id="mcliente" placeholder="Cliente"></div><div class="fg grow"><label>Buscar</label><input id="mq" placeholder="Pedido, produto, cliente..."></div><button class="btn outline" onclick="renderForm()">Aplicar</button></div>
   <div class="form-summary-grid"><div id="sum" class="sum"></div><div id="manualSelSummary" class="sum manual-summary" style="display:none"></div></div>
-  <div class="table"><table><thead><tr><th>✓</th><th>Pedido</th><th>Data</th><th>SKU</th><th>UM / Derivação</th><th>Lote</th><th>Origem</th><th>Cliente</th><th>Cidade</th><th>UF</th><th>Peso</th><th>Valor</th><th>Qtd.</th><th>Vol.</th></tr></thead><tbody id="fb"></tbody></table></div>
+  <div class="table"><table><thead><tr><th>✓</th><th>Pedido</th><th>Data</th><th>SKU / Descrição</th><th>UM / Derivação</th><th>Lote</th><th>Origem</th><th>Cliente</th><th>Cidade</th><th>UF</th><th>Peso</th><th>Valor</th><th>Qtd.</th><th>Vol.</th><th>Ações</th></tr></thead><tbody id="fb"></tbody></table></div>
 </section>
 
 <section id="p-cotacao" class="page">
@@ -1590,7 +1591,7 @@ function renderForm(){
   if(sum)sum.innerHTML=`<div><strong>${totalPedidos}</strong><span>Pedidos disponíveis</span></div><div><strong>${num(totalPeso)} kg</strong><span>Peso total disponível</span></div><div><strong>${money(totalValor)}</strong><span>Valor total disponível</span></div>`;
   let ms=document.getElementById('manualSelSummary');
   if(ms){if(selectedRows.length){ms.style.display='flex';ms.innerHTML=`<div><strong>${selectedPedidos}</strong><span>Seleção manual</span></div><div><strong>${num(selectedPeso)} kg</strong><span>Peso selecionado</span></div><div><strong>${money(selectedValor)}</strong><span>Valor selecionado</span></div><div><strong>${selectedIds.length}</strong><span>Itens selecionados</span></div>`}else{ms.style.display='none';ms.innerHTML=''}}
-  document.getElementById('fb').innerHTML=a.length?a.map(n=>`<tr><td><input class="nfc" type="checkbox" value="${n.id}" ${selected.has(n.id)?'checked':''} onchange="toggleSel(this)"></td><td class="mono"><button class="link-btn" onclick="pedidoFormModal('${n.id}')" title="Visualizar produtos do pedido">${esc(n.pedido||'—')}</button></td><td>${fmtDate(n.data_pedido)}</td><td>${esc(n.produto||'—')}</td><td>${esc([n.unidade_medida,n.derivacao].filter(Boolean).join(' / ')||'—')}</td><td>${esc(n.lote||'—')}</td><td>${esc(n.origem||'—')}</td><td>${esc(n.cliente||'—')}</td><td>${esc(n.cidade||'—')}</td><td>${esc(n.uf_destino||'—')}</td><td>${num(n.peso)}</td><td>${money(n.valor)}</td><td>${n.quantidade||0}</td><td>${n.volumes||0}</td><td><button class="btn outline mini" onclick="pedidoFormModal('${n.id}')">Detalhes</button></td></tr>`).join(''):'<tr><td colspan="15"><div class="empty">Nenhum pedido disponível para formação.</div></td></tr>';
+  document.getElementById('fb').innerHTML=a.length?a.map(n=>`<tr><td><input class="nfc" type="checkbox" value="${n.id}" ${selected.has(n.id)?'checked':''} onchange="toggleSel(this)"></td><td class="mono"><button class="link-btn" onclick="pedidoFormModal('${n.id}')" title="Visualizar produtos do pedido">${esc(n.pedido||'—')}</button></td><td>${fmtDate(n.data_pedido)}</td><td class="formation-product"><span class="formation-sku">${esc(n.produto||'—')}</span><small>${esc(n.descricao_produto||'Sem descrição')}</small></td><td>${esc([n.unidade_medida,n.derivacao].filter(Boolean).join(' / ')||'—')}</td><td>${esc(n.lote||'—')}</td><td>${esc(n.origem||'—')}</td><td>${esc(n.cliente||'—')}</td><td>${esc(n.cidade||'—')}</td><td>${esc(n.uf_destino||'—')}</td><td>${num(n.peso)}</td><td>${money(n.valor)}</td><td>${n.quantidade||0}</td><td>${n.volumes||0}</td><td><button class="btn outline mini" onclick="pedidoFormModal('${n.id}')">Detalhes</button></td></tr>`).join(''):'<tr><td colspan="15"><div class="empty">Nenhum pedido disponível para formação.</div></td></tr>';
   syncSel();
 }
 function selectedOrders(){return D.nfs.filter(n=>selected.has(n.id)&&!isNfInCarga(n.id? n:D.nfs.find(x=>x.id===n.id)));}
@@ -2817,18 +2818,18 @@ async function radarBootAuthenticated(){
     const gate=document.getElementById('radarAuthGate');if(gate)gate.style.display='none';
     const identity=document.createElement('div');
     identity.id='radarSessionIdentity';
-    identity.style.cssText='position:fixed;right:10px;bottom:10px;z-index:15;padding:7px 10px;border:1px solid rgba(0,216,245,.35);border-radius:8px;background:#031b2b;color:#9fc1ce;font:10px ui-monospace,monospace;max-width:90vw;overflow-wrap:anywhere';
+    identity.className='radar-session';
     const identityText=document.createElement('span');
-    identityText.textContent='SUPABASE ✓ · '+radarCompanyId+' · '+radarUserName+' ('+radarLogin+') · '+radarProfile+' · v'+radarDataVersion;
+    identityText.className='radar-session-text';const sessionName=document.createElement('strong');sessionName.textContent=radarUserName+' ('+radarLogin+')';const sessionMeta=document.createElement('small');sessionMeta.textContent=radarCompanyId+' · '+radarProfile;identityText.append(sessionName,sessionMeta);
     identity.appendChild(identityText);
     const logoutButton=document.createElement('button');
     logoutButton.type='button';
     logoutButton.textContent='Sair';
     logoutButton.setAttribute('aria-label','Encerrar sessão do Radar Logístico');
-    logoutButton.style.cssText='margin-left:10px;padding:5px 9px;border:1px solid rgba(255,151,31,.55);border-radius:6px;background:#102b3b;color:#ffbf6b;cursor:pointer;font:inherit';
+    logoutButton.className='radar-session-exit';
     logoutButton.addEventListener('click',radarLogout);
     identity.appendChild(logoutButton);
-    document.body.appendChild(identity);
+    (document.querySelector('.sb')||document.body).appendChild(identity);
     renderAll();
     installRadarAccess();
     show(D.config?.perfilDemo==='TRANSPORTADORA'?'performance':'home');
@@ -3195,5 +3196,6 @@ body:before{
 @keyframes radarSinistroPulse{0%,100%{transform:scale(.85);opacity:.72}50%{transform:scale(1.2);opacity:1}}
 </style>
 <link rel="stylesheet" href="yalog-radar-background.css?v=20261103">
+<link rel="stylesheet" href="radar-layout.css?v=075">
 </body>
 </html>

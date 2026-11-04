@@ -1,0 +1,31 @@
+/* Radar · formation clarity and session navigation */
+@media screen {
+ .sb{height:auto!important;min-height:76px!important;padding:8px 10px!important;gap:10px!important}
+ .sb .logo{min-height:60px;height:auto!important}
+ .sb .nav{min-height:60px}
+ #radarSessionIdentity{position:static!important;inset:auto!important;display:flex;align-items:center;gap:12px;flex:0 0 265px;max-width:300px;padding:10px 12px;border-left:1px solid #406477;background:#0a2939;color:#eaf6fb;border-radius:8px;margin:0;font:12px/1.45 Segoe UI,Arial,sans-serif;z-index:auto}
+ .radar-session-text{min-width:0;flex:1}.radar-session-text strong{display:block;font-size:12px;font-weight:700;overflow-wrap:anywhere}.radar-session-text small{display:block;color:#afcbd8;font-size:10px;margin-top:3px;overflow-wrap:anywhere}
+ .radar-session-exit{flex:0 0 auto;padding:9px 13px;border:1px solid #ffac60;border-radius:6px;background:#e77925;color:#fff;font-weight:750;cursor:pointer;min-height:38px}
+ .radar-session-exit:hover{background:#fa8b32}.radar-session-exit:focus-visible{outline:3px solid white;outline-offset:3px}
+ #p-form .formation-actions{margin:18px 0 12px!important;gap:10px;align-items:stretch}
+ #p-form .formation-actions .btn{min-height:46px;font-size:12px;padding:12px 18px;letter-spacing:.025em}
+ #p-form .formation-actions .btn.blue{background:#155774!important;border:1px solid #76c8e6!important;color:#fff!important;box-shadow:0 2px 7px #0b334520!important}
+ #p-form .formation-actions .btn.blue:hover{background:#207091!important;color:#fff!important}
+ #p-form .formation-actions .btn.outline{background:#123747!important;border-color:#4a7d94!important;color:#eaf8ff!important}
+ #p-form .formation-actions .btn:focus-visible{outline:3px solid #e97825;outline-offset:3px}
+ #p-form .formation-help{margin:0 0 16px;padding:12px 15px;background:rgba(255,255,255,.96);border:1px solid #c9dfe8;border-left:4px solid #e87524;border-radius:7px;color:#294d5e;font:13px/1.6 Segoe UI,Arial,sans-serif;max-width:100%}
+ #p-form>.table{background:#031b2b!important}
+ #p-form>.table>table{width:100%!important;min-width:1360px!important;table-layout:auto!important}
+ #p-form>.table th:last-child,#p-form>.table td:last-child{min-width:108px;text-align:center;background:#062131!important}
+ #p-form .formation-product{min-width:170px;max-width:240px;white-space:normal!important}
+ .formation-sku{display:block;font-weight:700;color:#e8f7ff}
+ #p-form .formation-product small{display:block;margin-top:5px;font-size:11px;color:#abcbd9;line-height:1.5;overflow-wrap:anywhere}
+ #p-form .form-summary-grid{grid-template-columns:1fr 1fr}
+ @media(max-width:1000px){
+  .sb{flex-wrap:wrap!important;gap:6px!important}.sb .logo{flex:0 0 190px;width:190px}.sb .nav{flex:1 1 250px}
+  #radarSessionIdentity{flex:1 1 100%;max-width:none;justify-content:flex-end;padding:7px 12px}
+  .radar-session-text{flex:0 1 auto;max-width:calc(100% - 85px);text-align:right}
+ }
+ @media(max-width:650px){.sb .logo{flex-basis:140px;width:140px}.sb .nav{flex-basis:160px}.radar-session-text strong{font-size:11px}#p-form .formation-actions .btn{flex:1 1 190px}#p-form .form-summary-grid{grid-template-columns:1fr}#p-form .formation-help{font-size:12px}}
+}
+@media print{#radarSessionIdentity,.formation-actions{display:none!important}}
