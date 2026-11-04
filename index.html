@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="yalog-entering">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -465,6 +465,14 @@ body:not(.radar-authenticated) .app{display:none!important}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="radar-access.js?v=078"></script>
 <script src="radar-routing.js?v=078"></script>
+<style id="yalog-entry-transition">
+html.yalog-entering{background:#e7f3f7 url('https://yalog-sistemas.github.io/yalog-ecosystem/assets/logistics-welcome.webp') center/cover fixed no-repeat}
+html.yalog-entering body{min-height:100vh;background:transparent!important}
+html.yalog-entering #radarAuthGate,html.yalog-entering #cloudGate{display:none!important}
+html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:fixed;inset:0;display:grid;place-items:center;z-index:2147483646;background:rgba(236,247,250,.65);color:#173f50;font:600 16px Segoe UI,Arial,sans-serif;animation:yalog-entry-reveal .2s .4s both;pointer-events:none}
+@keyframes yalog-entry-reveal{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){html.yalog-entering::after{animation:none}}
+</style>
 </head>
 <body>
 <div id="radarAuthGate" class="radar-auth-gate">
@@ -845,6 +853,7 @@ try{
   }
 }catch(e){console.error('[RADAR] falha ao inicializar Supabase:',e);}
 function radarGate(title,message,status,showHelp=false,showRetry=false){
+  if(showHelp||showRetry)document.documentElement.classList.remove('yalog-entering');
   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
   set('radarAuthTitle',title);set('radarAuthMessage',message);set('radarAuthStatus',status);
   const help=document.getElementById('radarAuthHelp'),retry=document.getElementById('radarAuthRetry');
@@ -1036,6 +1045,7 @@ async function radarSubmitLogin(event){
   }
 }
 async function radarLogout(){
+  const returnCompany=radarCompanyId;
   const button=document.querySelector('#radarSessionIdentity button');
   if(button){button.disabled=true;button.textContent='Saindo…';}
   if(radarDirty){
@@ -1055,12 +1065,9 @@ async function radarLogout(){
   radarCompanyId='';radarLogin='';radarUserName='';radarProfile='';radarCarrierId='';
   radarDirty=false;
   clearTimeout(radarSaveTimer);
+  document.documentElement.classList.add('yalog-entering');
   document.body.classList.remove('radar-authenticated');
-  const app=document.querySelector('.app');if(app)app.style.display='none';
-  const identity=document.getElementById('radarSessionIdentity');if(identity)identity.remove();
-  const gate=document.getElementById('radarAuthGate');if(gate)gate.style.display='grid';
-  const form=document.getElementById('radarLoginForm');if(form)form.reset();
-  radarGate('Sessão encerrada','Para continuar, informe novamente o ID da empresa, usuário e senha.','Você saiu do Radar Logístico.',false,false);
+  location.replace('https://yalog-sistemas.github.io/yalog-ecosystem/'+(returnCompany?'?empresa='+encodeURIComponent(returnCompany):''));
 }
 async function radarLoadSharedData(){
   const data=await radarRpc('radar_carregar_dados',{p_module_session_token:radarModuleSessionToken});
@@ -2835,6 +2842,7 @@ async function radarBootAuthenticated(){
     renderAll();
     installRadarRouting();
     installRadarAccess();
+    document.documentElement.classList.remove('yalog-entering');
     show(D.config?.perfilDemo==='TRANSPORTADORA'?'cotacao':'home');
     initResponsiveNumberObserver();
     setTimeout(()=>fitResponsiveNumbers(document),50);
@@ -2895,6 +2903,7 @@ async function radarBoot(){
       radarModuleSessionToken=null;
     }
   }
+  document.documentElement.classList.remove('yalog-entering');
   if(status)status.textContent=radarSupabase?'Aguardando credenciais…':'Cliente Supabase indisponível.';
 }
 radarBoot();
