@@ -1,0 +1,14 @@
+/* YALOG shared logistics background · screen only */
+@media screen {
+ html{background:#eaf3f6!important}
+ body{background:linear-gradient(rgba(238,247,250,.3),rgba(238,247,250,.3)),url("https://yalog-sistemas.github.io/yalog-ecosystem/assets/logistics-welcome.webp") center center/cover fixed no-repeat!important;color:#193e50!important}
+ body::before,body::after{display:none!important}
+ .app,.main,.content,.page,.page.on,.dash-view,.dash-view.on{background:transparent!important}
+ .page>.title,.page>.head .title,.page>.dash-head .title{color:#193e50!important;text-shadow:none!important}
+ .page>.sub,.page>.head .sub,.page>.dash-head small{color:#426474!important}
+ .page>.ey{color:#b85620!important}
+ .page>.head,.page>.dash-head{padding:16px 18px;background:rgba(255,255,255,.95)!important;color:#193e50!important;border:1px solid #cbdce4;border-radius:10px}
+ .page>.head .ct,.page>.dash-head h2,.page>.dash-head h3{color:#193e50!important}
+ #radarAuthGate{background:transparent!important}
+ @media(max-width:720px){body{background-position:64% center!important;background-attachment:scroll!important}}
+}
