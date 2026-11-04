@@ -463,8 +463,8 @@ body:not(.radar-authenticated) .app{display:none!important}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="radar-access.js?v=074"></script>
-<script src="radar-routing.js?v=077"></script>
+<script src="radar-access.js?v=078"></script>
+<script src="radar-routing.js?v=078"></script>
 </head>
 <body>
 <div id="radarAuthGate" class="radar-auth-gate">
@@ -578,14 +578,14 @@ body:not(.radar-authenticated) .app{display:none!important}
   <div class="ey">FRETES</div><div class="title">Cotação de <em>Frete</em></div><div class="sub">Direcione cargas para uma ou mais transportadoras e acompanhe as respostas.</div>
   <div id="cotNotice" class="notice" style="margin-bottom:12px"></div><div id="cotKpis" class="kpis"></div>
   <div class="filters"><div class="fg grow"><label>Buscar</label><input id="cotq" placeholder="Carga, destino, cliente..."></div><div class="fg"><label>Status</label><select id="cots"><option value="">Todos</option><option>PRONTA PARA COTAÇÃO</option><option>DIRECIONAMENTO PENDENTE</option></select></div><button class="btn outline" onclick="renderCotacao()">Filtrar</button></div>
-  <div class="table resizable-table" data-table-key="cotacao"><table id="cotTable"><thead><tr><th>Carga</th><th>Destino</th><th>Peso</th><th>Valor da carga</th><th>SLA</th><th>Transportadoras / Recomendação</th><th>Cotações / Status</th><th>Análise</th><th>Status da Carga</th><th>Notas / Documentos</th><th>Observações</th><th>Ações</th></tr></thead><tbody id="cotb"></tbody></table></div>
+  <div class="table resizable-table" data-table-key="cotacao-rota-v078"><table id="cotTable"><thead><tr><th>Carga</th><th>Destino</th><th>Rota / mapa</th><th>Peso</th><th>Valor da carga</th><th>SLA</th><th>Transportadoras / Recomendação</th><th>Cotações / Status</th><th>Análise</th><th>Status da Carga</th><th>Notas / Documentos</th><th>Observações</th><th>Ações</th></tr></thead><tbody id="cotb"></tbody></table></div>
 </section>
 
 <section id="p-fretes" class="page">
   <div class="ey">COTAÇÕES</div><div class="title">Status de <em>Fretes</em></div><div class="sub">Controle do prazo de resposta e análise das propostas recebidas.</div>
   <div id="freteKpis" class="kpis"></div>
   <div class="filters"><div class="fg grow"><label>Buscar</label><input id="frq" placeholder="Carga, transportadora, destino..."></div><div class="fg"><label>Status</label><select id="frs"><option value="">Todos</option><option>AGUARDANDO RETORNO</option><option>RECEBIDO</option><option>PRAZO EXCEDIDO</option><option>APROVADA</option><option>RECUSADA</option><option>NÃO SELECIONADA</option></select></div><button class="btn outline" onclick="renderFretes()">Filtrar</button></div>
-  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Devolutiva</th><th>Enviado</th><th>Frete</th><th>% sobre carga</th><th>Valor carga</th><th>Peso carga</th><th>Prazo entrega</th><th>Status</th><th colspan="4">Ações</th></tr></thead><tbody id="freteb"></tbody></table></div>
+  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Devolutiva</th><th>Enviado</th><th>Frete</th><th>% sobre carga</th><th>Valor carga</th><th>Peso carga</th><th>Prazo entrega</th><th>Status</th><th>Rota / mapa</th><th colspan="4">Ações</th></tr></thead><tbody id="freteb"></tbody></table></div>
 </section>
 
 <section id="p-billing" class="page">
@@ -599,7 +599,7 @@ body:not(.radar-authenticated) .app{display:none!important}
 <section id="p-exec" class="page">
   <div class="ey">ETAPA 06 · OPERAÇÃO</div><div class="title">Execução / <em>Entregas</em></div><div class="sub">Fila operacional das cargas já faturadas e liberadas. A transportadora visualiza somente suas cargas e pode tratar a fila em ordem FIFO, da mais antiga para a mais recente.</div>
   <div class="filters"><div class="fg grow"><label>Buscar</label><input id="exq" placeholder="Carga, NF, transportadora, destino..."></div><div class="fg"><label>Status</label><select id="exs"><option value="">Todos</option><option>LIBERADA PARA COLETA</option><option>EM SEPARAÇÃO</option><option>EM CONFERÊNCIA</option><option>AGUARDANDO CARREGAMENTO</option><option>EM PROCESSO DE COLETA</option><option>CARGA EM ROTA</option><option>RISCO DE ATRASO</option><option>ATRASADO</option><option>SINISTRO</option><option>ENTREGA REALIZADA</option><option>ENTREGA REALIZADA COM INSUCESSO</option><option>ENTREGUE COM ATRASO</option><option>OUTROS</option></select></div><div class="fg"><label>Fila</label><select id="exfifo"><option value="FIFO">FIFO · Mais antiga primeiro</option><option value="RECENTE">Mais recente primeiro</option></select></div><button class="btn outline" onclick="renderExec()">Filtrar</button></div>
-  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Destino</th><th>SLA</th><th>Previsão</th><th>Status</th><th>Ocorrência</th><th></th></tr></thead><tbody id="exb"></tbody></table></div>
+  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Destino</th><th>Rota / motorista</th><th>SLA</th><th>Previsão</th><th>Status</th><th>Ocorrência</th><th></th></tr></thead><tbody id="exb"></tbody></table></div>
 </section>
 
 
@@ -764,7 +764,7 @@ body:not(.radar-authenticated) .app{display:none!important}
   </div>
   <div class="card" style="margin-top:15px" id="radarCarrierUserAdmin">
     <div class="head"><div><div class="ct">Usuários das transportadoras</div><div class="dash-sub">Vincule cada login a uma transportadora cadastrada. A criação e o vínculo são validados no servidor.</div></div><button class="btn outline" onclick="radarRenderCarrierUsers()">Atualizar transportadoras</button></div>
-    <div class="notice" style="margin:10px 0">Versão de teste: o cadastro de vínculo é separado do cadastro de colaboradores internos. Não libere dados operacionais reais de transportadoras até concluir e validar o escopo de dados no backend.</div>
+    <div class="notice" style="margin:10px 0">O vínculo libera apenas as cargas disponibilizadas a esta transportadora, suas próprias cotações e a consulta ou revisão de rotas. Preços de concorrentes e demais cargas permanecem restritos.</div>
     <div class="grid2" style="margin-top:10px">
       <div class="card" style="background:var(--bg3)">
         <div class="ct">Criar / atualizar usuário de transportadora</div>
@@ -836,7 +836,7 @@ const RADAR_SUPABASE_URL='https://pyckcyaojztixsujbylq.supabase.co';
 const RADAR_SUPABASE_KEY='sb_publishable_iHBh-BZsjisQc0i09QUDoQ_9mZl1vfk';
 const RADAR_MODULE_ID='radarlogistico';
 const RADAR_SESSION_KEY='yalog_radar_module_session';
-let radarSupabase=null, radarModuleSessionToken=null, radarCompanyId='', radarLogin='', radarUserName='', radarProfile='';
+let radarSupabase=null, radarModuleSessionToken=null, radarCompanyId='', radarLogin='', radarUserName='', radarProfile='',radarCarrierId='';
 let radarDataVersion=0, radarSaveTimer=null, radarSaveBusy=false, radarSaveAgain=false, radarDirty=false, radarPolling=false;
 try{
   if(window.supabase?.createClient){
@@ -1052,7 +1052,7 @@ async function radarLogout(){
   }
   sessionStorage.removeItem(RADAR_SESSION_KEY);
   radarModuleSessionToken=null;
-  radarCompanyId='';radarLogin='';radarUserName='';radarProfile='';
+  radarCompanyId='';radarLogin='';radarUserName='';radarProfile='';radarCarrierId='';
   radarDirty=false;
   clearTimeout(radarSaveTimer);
   document.body.classList.remove('radar-authenticated');
@@ -1066,7 +1066,7 @@ async function radarLoadSharedData(){
   const data=await radarRpc('radar_carregar_dados',{p_module_session_token:radarModuleSessionToken});
   if(!data?.ok||!data.company_id||data.company_id!==radarCompanyId)throw new Error('O servidor não confirmou a empresa da sessão.');
   radarDataVersion=Number(data.version||0);
-  if(data.perfil)radarProfile=data.perfil;
+  if(data.perfil)radarProfile=data.perfil;radarCarrierId=data.transportadora_id||'';
   if(data.nome)radarUserName=data.nome;
   const payload=data.payload&&typeof data.payload==='object'?data.payload:{};
   D=Object.assign(base(),payload);
@@ -1120,7 +1120,7 @@ async function radarPollSharedData(){
     if(data?.ok&&data.company_id===radarCompanyId&&Number(data.version||0)>radarDataVersion){
       const payload=data.payload&&typeof data.payload==='object'?data.payload:{};
       D=Object.assign(base(),payload);radarDataVersion=Number(data.version);
-      renderAll();show(D.config?.perfilDemo==='TRANSPORTADORA'?'performance':'home');
+      renderAll();show(D.config?.perfilDemo==='TRANSPORTADORA'?'cotacao':'home');
       toast('Dados compartilhados atualizados.');
     }
   }catch(e){console.warn('[RADAR] atualização compartilhada indisponível:',e.message);}
@@ -1200,7 +1200,7 @@ function badge(s){let c=s==='CARGA FATURADA'?'b-orange':['CARGA LIBERADA','LIBER
 const titles={home:'Inclusão de Pedidos Liberados',billing:'Faturamento',form:'Formação / Roteirização',cotacao:'Cotação de Frete',fretes:'Status de Fretes',exec:'Execução / Entregas',dash:'Dashboards',performance:'Performance',config:'Configurações',cargas:'Todas as Cargas',trans:'Transportadoras',sla:'Configurações Gerais',audit:'Auditoria',backup:'Backup / Reset'};
 function show(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));let page=document.getElementById('p-'+p);if(!page)return;page.classList.add('on');document.querySelectorAll('.ni').forEach(x=>x.classList.toggle('on',x.dataset.p===p));document.getElementById('pt').textContent=titles[p]||p;({home:home, billing:renderBilling, dash:()=>setDashView(currentDashView), form:renderForm, cotacao:renderCotacao, fretes:renderFretes, exec:renderExec, performance:renderPerformance, config:renderConfig, cargas:renderCargas, trans:renderTrans, sla:()=>{renderSla();renderSeqCarga()}, audit:renderAudit, backup:()=>{}}[p]||home)()}
 function refreshDemoCarrier(){let e=document.getElementById('demoCarrier');if(!e)return;let ts=(D.transportadoras||[]).filter(t=>t.ativo!==false);e.innerHTML=ts.map(t=>`<option value="${t.id}">${esc(t.nome)}</option>`).join('');if(!D.config.demoTransportadoraId&&ts[0])D.config.demoTransportadoraId=ts[0].id;if(D.config.demoTransportadoraId&&ts.some(t=>t.id===D.config.demoTransportadoraId))e.value=D.config.demoTransportadoraId;else if(ts[0]){D.config.demoTransportadoraId=ts[0].id;e.value=ts[0].id;}e.style.display=D.config.perfilDemo==='TRANSPORTADORA'?'':'none'}
-function applyRoleAccess(){let role=D.config?.perfilDemo||'EMBARCADORA';let allowed=role==='TRANSPORTADORA'?new Set(['dash','fretes','exec','performance']):new Set(['home','form','cotacao','fretes','billing','exec','dash','performance','config']);document.querySelectorAll('.ni').forEach(b=>{b.style.display=allowed.has(b.dataset.p)?'':'none'});let title=role==='TRANSPORTADORA'?'Visão da Transportadora':'Visão da Embarcadora';let el=document.querySelector('.logo small');if(el)el.textContent='GESTÃO DE FRETES & CARGAS · '+title.toUpperCase();refreshDemoCarrier()}
+function applyRoleAccess(){let role=D.config?.perfilDemo||'EMBARCADORA';let allowed=role==='TRANSPORTADORA'?new Set(['cotacao','dash','fretes','exec','performance']):new Set(['home','form','cotacao','fretes','billing','exec','dash','performance','config']);document.querySelectorAll('.ni').forEach(b=>{b.style.display=allowed.has(b.dataset.p)?'':'none'});let title=role==='TRANSPORTADORA'?'Visão da Transportadora':'Visão da Embarcadora';let el=document.querySelector('.logo small');if(el)el.textContent='GESTÃO DE FRETES & CARGAS · '+title.toUpperCase();refreshDemoCarrier()}
 function setDemoRole(){toast('O perfil é definido pelo servidor após autenticação e não pode ser alterado pela interface.');}
 function setDemoCarrier(id){if(!id)return;D.config.demoTransportadoraId=id;save();renderAll();show(D.config.perfilDemo==='TRANSPORTADORA'?'performance':'home');toast('Transportadora de teste selecionada.')}
 document.querySelectorAll('.ni').forEach(b=>b.onclick=()=>show(b.dataset.p));
@@ -1764,7 +1764,7 @@ function buildAutoPlan(){
    plans.push({idx:plans.length+1,type:best.type.tipo,cap:Number(best.type.capacidadeKg||0),physicalCapMetric:vehicleCapacityFor(best.type,cfg),capMetric:best.capMetric,metric:best.metric,peso:best.items.reduce((s,n)=>s+Number(n.peso||0),0),ids,uf:[...new Set(best.items.map(n=>n.uf_destino).filter(Boolean))].join('/'),origem:first?.origem||'',destinos,routeItems:best.items,geoScore:best.geoScore,utilization:best.utilization,capPP:vehicleReferencePP(best.type)});
  }
  let assigned=new Set(plans.flatMap(p=>p.ids)),unassigned=nfs.filter(n=>!assigned.has(n.id)),total=nfs.reduce((s,n)=>s+Number(n.peso||0),0),metricTotal=nfs.reduce((s,n)=>s+loadMetricFor(n,cfg.criterio),0);window.autoPlans=plans;window.autoUnassigned=unassigned;
- document.getElementById('ar').innerHTML=`<div class="sum"><div><strong>${nfs.length}</strong><span>pedidos disponíveis</span></div><div><strong>${num(total)}</strong><span>kg</span></div><div><strong>${num(metricTotal)}</strong><span>${cfg.criterio==='PESO'?'base de ocupação':cfg.criterio==='VOLUME'?'m³':cfg.criterio==='PALETES'?'PP':'unidades'}</span></div><div><strong>${plans.length}</strong><span>propostas</span></div><div><strong>${plans.filter(p=>(p.destinos||[]).length>1).length}</strong><span>rotas multi-cidade · mesma UF</span></div></div><div class="auto-plan"><table><thead><tr><th>✓</th><th>Proposta</th><th>Rota otimizada</th><th>Tipo</th><th>Capacidade</th><th>Pedidos</th><th>Peso</th><th>Ocupação</th><th>Cap. PP</th><th>Geografia</th><th></th></tr></thead><tbody>${plans.map((p,i)=>{let occ=occupancyForPlan(p);let geo=(p.destinos||[]).length>1?`<span class="badge b-green">MULTI-CIDADE · MESMA UF</span>`:`<span class="badge b-amber">1 CIDADE</span>`;return `<tr><td><input class="auto-check" type="checkbox" value="${i}" checked></td><td>Carga ${i+1}</td><td>${esc((p.destinos||[]).join(' → '))}</td><td><select class="auto-type" data-index="${i}" onchange="autoTypeChanged(this)">${automaticVehicleTypes(cfg).map(t=>`<option value="${esc(t.tipo)}" ${t.tipo===p.type?'selected':''}>${esc(t.tipo)} · ${num(vehicleCapacityFor(t,cfg))} ${cfg.criterio==='PESO'?'kg':cfg.criterio==='VOLUME'?'m³':cfg.criterio==='PALETES'?'PP':'un.'} · ${num(vehicleReferencePP(t))} PP</option>`).join('')}</select></td><td><input class="auto-cap" data-index="${i}" type="number" min="1" value="${p.capMetric}" onchange="autoCapChanged(this)"> ${cfg.criterio==='PESO'?'kg':cfg.criterio==='VOLUME'?'m³':cfg.criterio==='PALETES'?'PP':'un.'}</td><td>${p.ids.length}</td><td>${num(p.peso)} kg</td><td><b data-occupancy="${i}">${num(occ)}%</b></td><td data-cap-pp>${num(p.capPP||vehicleReferencePP(activeVehicleTypes().find(t=>t.tipo===p.type)||{}))} PP</td><td>${geo}<div class="dash-mini-note">${num(p.geoScore||0)} km médio ao centro</div></td><td><button class="btn outline" onclick="showRoutePlan(${i})">Ver rota</button></td></tr>`}).join('')}</tbody></table></div>${unassigned.length?`<div class="notice" style="margin-top:12px;margin-bottom:0">${unassigned.length} pedido(s) ficaram fora porque não houve encaixe na capacidade/geografia ou o limite de propostas foi atingido.</div>`:''}`;
+ document.getElementById('ar').innerHTML=`<div class="sum"><div><strong>${nfs.length}</strong><span>pedidos disponíveis</span></div><div><strong>${num(total)}</strong><span>kg</span></div><div><strong>${num(metricTotal)}</strong><span>${cfg.criterio==='PESO'?'base de ocupação':cfg.criterio==='VOLUME'?'m³':cfg.criterio==='PALETES'?'PP':'unidades'}</span></div><div><strong>${plans.length}</strong><span>propostas</span></div><div><strong>${plans.filter(p=>(p.destinos||[]).length>1).length}</strong><span>rotas multi-cidade · mesma UF</span></div></div><div class="auto-plan"><table><thead><tr><th>✓</th><th>Proposta</th><th>Rota otimizada</th><th>Tipo</th><th>Capacidade</th><th>Pedidos</th><th>Peso</th><th>Ocupação</th><th>Cap. PP</th><th>Geografia</th><th></th></tr></thead><tbody>${plans.map((p,i)=>{let occ=occupancyForPlan(p);let geo=(p.destinos||[]).length>1?`<span class="badge b-green">MULTI-CIDADE · MESMA UF</span>`:`<span class="badge b-amber">1 CIDADE</span>`;return `<tr><td><input class="auto-check" type="checkbox" value="${i}" checked></td><td>Carga ${i+1}</td><td>${esc((p.destinos||[]).join(' → '))}</td><td><select class="auto-type" data-index="${i}" onchange="autoTypeChanged(this)">${automaticVehicleTypes(cfg).map(t=>`<option value="${esc(t.tipo)}" ${t.tipo===p.type?'selected':''}>${esc(t.tipo)} · ${num(vehicleCapacityFor(t,cfg))} ${cfg.criterio==='PESO'?'kg':cfg.criterio==='VOLUME'?'m³':cfg.criterio==='PALETES'?'PP':'un.'} · ${num(vehicleReferencePP(t))} PP</option>`).join('')}</select></td><td><input class="auto-cap" data-index="${i}" type="number" min="1" value="${p.capMetric}" onchange="autoCapChanged(this)"> ${cfg.criterio==='PESO'?'kg':cfg.criterio==='VOLUME'?'m³':cfg.criterio==='PALETES'?'PP':'un.'}</td><td>${p.ids.length}</td><td>${num(p.peso)} kg</td><td><b data-occupancy="${i}">${num(occ)}%</b></td><td data-cap-pp>${num(p.capPP||vehicleReferencePP(activeVehicleTypes().find(t=>t.tipo===p.type)||{}))} PP</td><td>${geo}<div class="dash-mini-note">${num(p.geoScore||0)} km médio ao centro</div></td><td><button class="btn outline" onclick="showRoutePlan(${i})">Pré-visualizar rota</button></td></tr>`}).join('')}</tbody></table></div>${unassigned.length?`<div class="notice" style="margin-top:12px;margin-bottom:0">${unassigned.length} pedido(s) ficaram fora porque não houve encaixe na capacidade/geografia ou o limite de propostas foi atingido.</div>`:''}`;
 }
 function autoTypeChanged(el){let i=Number(el.dataset.index),p=window.autoPlans?.[i];if(!p)return;let cfg=occupancyConfig(),t=activeVehicleTypes().find(x=>x.tipo===el.value);if(!t)return;p.type=t.tipo;p.cap=t.capacidadeKg;let physical=vehicleCapacityFor(t,cfg);p.physicalCapMetric=physical;p.capMetric=physical*(cfg.max/100);p.capPP=vehicleReferencePP(t);let cap=document.querySelector(`.auto-cap[data-index="${i}"]`);if(cap)cap.value=p.capMetric;let row=el.closest('tr');if(row){let occ=row.querySelector(`[data-occupancy="${i}"]`);if(occ)occ.innerHTML=`${num(occupancyForPlan(p))}%`;let pp=row.querySelector('[data-cap-pp]');if(pp)pp.textContent=`${num(p.capPP)} PP`;}}
 function autoCapChanged(el){let i=Number(el.dataset.index),p=window.autoPlans?.[i],cap=Number(el.value||0);if(!p||cap<=0)return;p.capMetric=cap;let row=el.closest('tr');if(row){let occ=row.querySelector(`[data-occupancy="${i}"]`);if(occ)occ.textContent=`${num(occupancyForPlan(p))}%`;}}
@@ -2205,6 +2205,7 @@ function downloadNfXml(nfId){let n=D.nfs.find(x=>x.id===nfId);if(!n)return;let x
 function printDanfe(nfId){let n=D.nfs.find(x=>x.id===nfId);if(!n)return;let w=window.open('','_blank','width=1000,height=800');if(!w)return toast('Permita pop-ups para imprimir o DANFE.');let html=`<!doctype html><html><head><meta charset="utf-8"><title>DANFE - NF ${esc(n.numero)}</title><style>body{font-family:Arial,sans-serif;margin:24px;color:#111}h1{font-size:20px;margin:0 0 12px}.box{border:1px solid #333;padding:10px;margin:8px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.label{font-size:10px;color:#555;text-transform:uppercase}.val{font-size:13px;font-weight:600;margin-top:3px}.big{font-size:22px}.items{margin-top:14px;width:100%;border-collapse:collapse}.items th,.items td{border:1px solid #555;padding:6px;font-size:11px}.items th{background:#eee}@media print{body{margin:8mm}.no-print{display:none}}</style></head><body><h1>DANFE — Documento Auxiliar da NF-e</h1><div class="box"><div class="grid"><div><div class="label">NF-e</div><div class="val big">${esc(n.numero)}</div></div><div><div class="label">Emissão</div><div class="val">${fmtDate(n.data_faturamento)}</div></div><div><div class="label">Chave</div><div class="val">${esc(n.chave||'Demonstração / não informada')}</div></div><div><div class="label">Valor total</div><div class="val">${money(n.valor)}</div></div></div></div><div class="box"><div class="grid"><div><div class="label">Remetente</div><div class="val">${esc(n.remetente)}</div></div><div><div class="label">Destinatário</div><div class="val">${esc(n.cliente)}</div></div><div><div class="label">Destino</div><div class="val">${esc(n.cidade)}/${esc(n.uf_destino)}</div></div><div><div class="label">Origem</div><div class="val">${esc(n.origem)}/${esc(n.uf_origem)}</div></div></div></div><table class="items"><tr><th>Peso bruto</th><th>Volumes</th><th>Transportadora</th><th>Valor da NF</th></tr><tr><td>${num(n.peso)} kg</td><td>${Number(n.volumes||0)}</td><td>${esc(n.transportadora||'—')}</td><td>${money(n.valor)}</td></tr></table><p style="font-size:10px;margin-top:18px">Visualização de impressão baseada nos dados da NF. Para XMLs de demonstração, o documento é um espelho operacional e não substitui o DANFE fiscal oficial.</p><button class="no-print" onclick="window.print()">Imprimir / Salvar em PDF</button></body></html>`;w.document.open();w.document.write(html);w.document.close();audit('VISUALIZAR_DANFE',n.numero,'Visualização/impressão do documento');}
 
 function renderCotacao(){
+  if(radarProfile==='TRANSPORTADORA'){radarRenderCarrierCotacao();return;}
   ensureFreteData();
   let q=(document.getElementById('cotq')?.value||'').toLowerCase(),st=document.getElementById('cots')?.value||'';
   let rows=D.cargas.filter(c=>!isInFreightStatus(c)&&['CARGA FORMADA','CARGA LIBERADA'].includes(c.status))
@@ -2220,7 +2221,7 @@ function renderCotacao(){
       received=qs.filter(x=>quoteStatus(x)==='RECEBIDO').length;
     return `<tr>
       <td><b>#${c.numero}</b></td>
-      <td>${esc(c.destino)}/${esc(c.uf_destino)}</td>
+      <td>${esc(c.destino)}/${esc(c.uf_destino)}</td><td><button class="btn blue" onclick="radarOpenCargoRoute('${c.id}')">Pré-visualizar rota</button></td>
       <td>${num(c.peso)} kg</td>
       <td>${money(c.valor)}</td>
       <td>${slaLabel(c)}</td>
@@ -2232,7 +2233,7 @@ function renderCotacao(){
       <td>${cargoNoteSignal(c)} <button class="btn outline" onclick="cargoObservationModal('${c.id}')">Ver</button></td>
       <td><button class="btn primary" onclick="quoteModal('${c.id}')">${req.total>=3?'Ver direcionamento':'Adicionar / direcionar'}</button></td>
     </tr>`;
-  }).join(''):'<tr><td colspan="12"><div class="empty">Nenhuma carga disponível para cotação.</div></td></tr>';
+  }).join(''):'<tr><td colspan="13"><div class="empty">Nenhuma carga disponível para cotação.</div></td></tr>';
   initResizableTables();
 }
 function receiveQuote(id){let q=D.cotacoes.find(x=>x.id===id),c=q&&cargo(q.carga_id);if(!q||!c)return;if(D.config.perfilDemo==='TRANSPORTADORA'&&q.transportadora_id!==D.config.demoTransportadoraId)return toast('Acesso não permitido.');let editing=q.status==='RECEBIDO';let carrierSla=carrierRouteSla(c,{id:q.transportadora_id});let slaInfo=carrierSla?`SLA cadastrado da transportadora: ${carrierSla.prazo_min}-${carrierSla.prazo_max} dia(s). O prazo informado abaixo pode refletir a proposta comercial.`:'<b>Sem SLA específico cadastrado para esta transportadora/rota.</b> Informe obrigatoriamente o prazo de entrega proposto.';openModal(`<button class="x" onclick="closeModal()">×</button><h2>${editing?'Editar frete e prazo':'Informar frete e prazo'}</h2><div class="sub">Carga #${c.numero} · ${esc(q.transportadora_nome)}</div><div class="notice" style="margin:12px 0">${slaInfo}</div><div class="grid2"><div class="fg"><label>Valor do frete (R$)</label><input id="rfv" type="number" min="0" step="0.01" value="${Number(q.valor_frete||0)||''}"></div><div class="fg"><label>Prazo de entrega proposto (dias)</label><input id="rfp" type="number" min="1" step="1" value="${Number(q.prazo_entrega_dias||0)||''}"></div><div class="fg" style="grid-column:1/-1"><label>Observação da proposta</label><textarea id="rfo">${esc(q.observacao||'')}</textarea></div></div><div class="notice">A transportadora pode editar frete e prazo enquanto a proposta não estiver aprovada. A embarcadora pode analisar e aprovar qualquer proposta recebida.</div><div class="actions"><button class="btn primary" onclick="saveReceivedQuote('${q.id}')">${editing?'Salvar alteração':'Enviar frete'}</button></div>`)}
@@ -2327,8 +2328,8 @@ function renderFretes(){
     let flow=canReopen?`<button class="btn blue" onclick="reopenQuote('${c.id}')">REABRIR COTAÇÃO</button>`:canCancel?`<button class="btn danger" onclick="cancelLoadModal('${c.id}')">CANCELAR CARGA</button>`:'';
     let refuse=isTrans&&['AGUARDANDO RETORNO','PRAZO EXCEDIDO'].includes(quoteStatus(x))?`<button class="btn refuse" onclick="refuseQuote('${x.id}')">RECUSAR</button>`:'';
     let statusHtml=`${quoteBadge(quoteStatus(x))}${rank?'<br>'+rank:''}`;
-    return `<tr><td>#${c?.numero||'—'}</td><td>${esc(x.transportadora_nome)}</td><td>${x.recebido_at?new Date(x.recebido_at).toLocaleString('pt-BR'):'—'}</td><td>${x.enviado_at?new Date(x.enviado_at).toLocaleString('pt-BR'):'—'}</td><td>${x.valor_frete?money(x.valor_frete):'—'}</td><td>${pct!==null?num(pct)+'%':'—'}</td><td>${cargoValor?money(cargoValor):'—'}</td><td>${cargoPeso?num(cargoPeso)+' kg':'—'}</td><td>${x.prazo_entrega_dias?x.prazo_entrega_dias+' dia(s)':'—'}${!carrierRouteSla(c,{id:x.transportadora_id})&&x.prazo_entrega_dias?'<br><small class="muted">prazo proposto</small>':''}</td><td>${statusHtml}</td><td>${c?`<button class="btn outline" onclick="notesDocumentsModal('${c.id}')">NFS / XML</button>`:'—'}</td><td>${c?`<button class="btn outline" onclick="quoteRequestDetails('${c.id}','${x.id}')">VER</button>`:'—'}</td><td>${decision}</td><td>${isTrans?refuse:(flow||'')}</td></tr>`;
-  }).join(''):'<tr><td colspan="14"><div class="empty">Nenhum frete encontrado.</div></td></tr>';initResizableTables();save();
+    return `<tr><td>#${c?.numero||'—'}</td><td>${esc(x.transportadora_nome)}</td><td>${x.recebido_at?new Date(x.recebido_at).toLocaleString('pt-BR'):'—'}</td><td>${x.enviado_at?new Date(x.enviado_at).toLocaleString('pt-BR'):'—'}</td><td>${x.valor_frete?money(x.valor_frete):'—'}</td><td>${pct!==null?num(pct)+'%':'—'}</td><td>${cargoValor?money(cargoValor):'—'}</td><td>${cargoPeso?num(cargoPeso)+' kg':'—'}</td><td>${x.prazo_entrega_dias?x.prazo_entrega_dias+' dia(s)':'—'}${!carrierRouteSla(c,{id:x.transportadora_id})&&x.prazo_entrega_dias?'<br><small class="muted">prazo proposto</small>':''}</td><td>${statusHtml}</td><td>${c?`<button class="btn blue" onclick="radarOpenCargoRoute('${c.id}')">Pré-visualizar rota</button>`:'—'}</td><td>${c?`<button class="btn outline" onclick="notesDocumentsModal('${c.id}')">NFS / XML</button>`:'—'}</td><td>${c?`<button class="btn outline" onclick="quoteRequestDetails('${c.id}','${x.id}')">VER</button>`:'—'}</td><td>${decision}</td><td>${isTrans?refuse:(flow||'')}</td></tr>`;
+  }).join(''):'<tr><td colspan="15"><div class="empty">Nenhum frete encontrado.</div></td></tr>';initResizableTables();save();
 }
 
 function billingFiscalDocs(c){
@@ -2503,14 +2504,14 @@ function renderExec(){
     const occ=D.ocorrencias.filter(o=>o.carga_id===c.id).slice(-1)[0];
     return `<tr${executionRowClass(current)}>
       <td>#${c.numero}</td><td>${esc(c.transportadora||'—')}</td><td>${esc(c.destino)}/${esc(c.uf_destino)}</td>
-      <td>${slaLabel(c)}</td><td>${fmtDate(c.eta_max)}</td>
+      <td><button class="btn blue" onclick="radarOpenCargoRoute('${c.id}')">Ver / imprimir rota</button></td><td>${slaLabel(c)}</td><td>${fmtDate(c.eta_max)}</td>
       <td>${executionStatusFarol(current)}</td>
       <td>${occ?.observacao?executionStatusFarol(occ.observacao,'radar-exec-ocorrencia'):'—'}</td>
       <td><button class="btn outline" onclick="notesDocumentsModal('${c.id}')">NFs / XML / PDF</button></td>
       <td>${cargoNoteSignal(c)} <button class="btn outline" onclick="cargoObservationModal('${c.id}')">${D.config.perfilDemo==='TRANSPORTADORA'?'Adicionar / Ver':'Ver'}</button></td>
       <td><button class="btn primary" onclick="executionModal('${c.id}')">Atualizar</button></td>
     </tr>`;
-  }).join(''):'<tr><td colspan="10"><div class="empty">Nenhuma carga em execução.</div></td></tr>';
+  }).join(''):'<tr><td colspan="11"><div class="empty">Nenhuma carga em execução.</div></td></tr>';
   save();
 }
 
@@ -2801,11 +2802,10 @@ async function radarBootAuthenticated(){
   try{
     await radarEstablishSession();
     await radarEnsureInstallationBinding();
-    if(/TRANSPORTADORA|CARRIER/i.test(radarProfile)){
-      throw new Error('Login de transportadora validado, mas o portal operacional está bloqueado até a ativação do escopo de dados no backend. Nenhum dado operacional foi carregado. Não remova este bloqueio antes de validar o isolamento por transportadora.');
-    }
+
     radarGate('Carregando dados da empresa','Sessão e instalação confirmadas. Buscando a base compartilhada do Radar.','Empresa: '+radarCompanyId+' · Usuário: '+radarLogin);
     const hasSharedData=await radarLoadSharedData();
+    if(radarProfile==='TRANSPORTADORA'&&!radarCarrierId)throw Error('Transportadora sem vínculo confirmado nesta empresa.');
     if(!hasSharedData && radarCompanyId==='YLG-RADAR-QA'){
       seed(true);
       ensureRadar90DaySyntheticDataset();
@@ -2835,7 +2835,7 @@ async function radarBootAuthenticated(){
     renderAll();
     installRadarRouting();
     installRadarAccess();
-    show(D.config?.perfilDemo==='TRANSPORTADORA'?'performance':'home');
+    show(D.config?.perfilDemo==='TRANSPORTADORA'?'cotacao':'home');
     initResponsiveNumberObserver();
     setTimeout(()=>fitResponsiveNumbers(document),50);
     setInterval(radarPollSharedData,15000);
@@ -3201,6 +3201,6 @@ body:before{
 <link rel="stylesheet" href="yalog-radar-background.css?v=20261103">
 <link rel="stylesheet" href="radar-layout.css?v=075">
 <link rel="stylesheet" href="yalog-radar-light.css?v=076">
-<link rel="stylesheet" href="radar-routing.css?v=077">
+<link rel="stylesheet" href="radar-routing.css?v=078">
 </body>
 </html>

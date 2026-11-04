@@ -20,3 +20,12 @@ A sequência é armazenada nos pedidos da carga e em route_stops. Distâncias, t
 
 ## Verificação
 Testes cobrem minimização em matriz assimétrica, primeira entrega fixa, destinos sem conexão, agrupamento sem perda de pedidos, rotas maiores, alteração de origem, perfil de consulta, preservação dos acessos e integração com formação manual/automática. Uma consulta real de Uberaba → Ribeirão Preto → Campinas confirmou os trechos e a soma de 394,1 km no serviço rodoviário em 04/11/2026; o valor é uma estimativa entre os pontos de referência urbanos utilizados.
+
+## Cotação, execução e roteiro do motorista (v078)
+- Formação automática: cada proposta oferece Pré-visualizar rota, usando o mesmo mapa e controle de sequência da formação manual.
+- Cotação de Frete e Status de Fretes: botão de rota por carga. Execução / Entregas: Ver / imprimir rota.
+- Imprimir roteiro do motorista abre uma versão A4 com mapa, sequência, clientes, pedidos, produtos, pesos, volumes e quilômetros por trecho/acumulados; não inclui preços. Uma sequência ainda não salva é identificada como prévia.
+- Rotas gravadas podem ser abertas sem recalcular os quilômetros. Serviços cartográficos indisponíveis não impedem consultar o trajeto já armazenado; a impressão usa um esquema quando o mapa não está disponível.
+- Transportadoras autenticadas e vinculadas recebem somente cargas disponibilizadas a elas e suas próprias cotações. Podem revisar a sequência dessas cargas pelo serviço exclusivo de rota; não podem gravar a base completa, ver preços de concorrentes ou alterar cargas encerradas/canceladas. As alterações registram usuário e data e ficam visíveis para a embarcadora.
+- Controle de versão impede sobrescrever uma atualização concorrente. Em caso de conflito, reabra a rota.
+- Testes adicionais: formação automática, impressão de rota salva e prévia, perfil de transportadora, gravação restrita, cargas encerradas, isolamento entre transportadoras, preservação de documentos/preços e conflitos de versão.
