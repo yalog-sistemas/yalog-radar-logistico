@@ -465,6 +465,7 @@ body:not(.radar-authenticated) .app{display:none!important}
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="radar-access.js?v=078"></script>
 <script src="radar-routing.js?v=079"></script>
+<script src="radar-performance.js?v=084"></script>
 <style id="yalog-entry-transition">
 html.yalog-entering{background:#e7f3f7 url('https://yalog-sistemas.github.io/yalog-ecosystem/assets/logistics-welcome.webp') center/cover fixed no-repeat}
 html.yalog-entering body{min-height:100vh;background:transparent!important}
@@ -742,6 +743,7 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
 
 <section id="p-performance" class="page">
   <div class="ey">INDICADORES</div><div class="title">Performance das <em>Transportadoras</em></div><div class="sub">Painel principal da transportadora ou visão consolidada da embarcadora. O perfil transportadora mostra somente os próprios dados.</div>
+  <div class="filters performance-toolbar"><div class="fg"><label for="performanceCarrier">Transportadora</label><select id="performanceCarrier" onchange="radarChangePerformanceCarrier(this.value)"><option value="">Todas as transportadoras</option></select></div><p id="performanceScope" role="status">Visão consolidada de todas as transportadoras</p><button type="button" class="btn primary" onclick="radarPrintPerformance()">Imprimir / salvar relatório</button></div>
   <div id="perfKpis" class="kpis"></div>
 
 <div class="perf-rate-legend"><span>Faróis de SLA e eficiência:</span><span class="perf-rate perf-rate--danger"><i class="perf-rate-dot" aria-hidden="true"></i>Até 85%</span><span class="perf-rate perf-rate--info"><i class="perf-rate-dot" aria-hidden="true"></i>Acima de 85% até 95%</span><span class="perf-rate perf-rate--success"><i class="perf-rate-dot" aria-hidden="true"></i>Acima de 95%</span></div>
@@ -2527,8 +2529,9 @@ function radarPerformanceTone(value){const n=Number(value);if(!Number.isFinite(n
 function radarPerformanceRate(value,label){const n=Number(value),tone=radarPerformanceTone(value);if(!Number.isFinite(n))return '<span class="perf-rate perf-rate--neutral">—</span>';const text=num(n)+'%',range=tone==='success'?'acima de 95%':tone==='info'?'acima de 85% até 95%':'até 85%';return '<span class="perf-rate perf-rate--'+tone+'" title="'+label+': '+text+' · '+range+'" aria-label="'+label+': '+text+', '+range+'"><span class="perf-rate-dot" aria-hidden="true"></span><span>'+text+'</span></span>'}
 function renderPerformance(){
   ensureFreteData();
-  let role=D.config?.perfilDemo||'EMBARCADORA',selectedId=D.config?.demoTransportadoraId||'',scoped=radarDashCargas();
-  let names=D.transportadoras.filter(t=>t.ativo!==false&&(role!=='TRANSPORTADORA'||t.id===selectedId));
+  let role=D.config?.perfilDemo||'EMBARCADORA',selectedId=D.config?.demoTransportadoraId||'',scoped=(D.cargas||[]).filter(c=>c.status!=='CANCELADA').filter(c=>role!=='TRANSPORTADORA'||c.transportadora_id===selectedId);
+  const available=D.transportadoras.filter(t=>t.ativo!==false&&(role!=='TRANSPORTADORA'||t.id===selectedId)),chosen=radarSyncPerformanceCarrier(available,role,selectedId);
+  let names=available.filter(t=>!chosen||String(t.id)===String(chosen));
   let rows=names.map(t=>{
     let cs=scoped.filter(c=>c.transportadora_id===t.id||c.transportadora===t.nome),del=cs.filter(c=>['ENTREGA REALIZADA','ENTREGUE COM ATRASO','ENTREGA REALIZADA COM INSUCESSO'].includes(c.status)),ont=cs.filter(c=>c.status==='ENTREGA REALIZADA'),late=cs.filter(c=>['ENTREGUE COM ATRASO','ATRASADO','RISCO DE ATRASO'].includes(c.status)),fail=cs.filter(c=>c.status==='ENTREGA REALIZADA COM INSUCESSO'),sinistro=cs.filter(c=>c.status==='SINISTRO'),quotes=(D.cotacoes||[]).filter(q=>q.transportadora_id===t.id),pending=quotes.filter(q=>quoteStatus(q)==='AGUARDANDO RETORNO').length,received=quotes.filter(q=>['RECEBIDO','APROVADA'].includes(quoteStatus(q))).length,eff=del.length?ont.length/del.length*100:0,slaPct=del.length?del.filter(c=>!['ENTREGUE COM ATRASO','ATRASADO'].includes(c.status)).length/del.length*100:100,freight=quotes.filter(q=>q.status==='APROVADA').reduce((s,q)=>s+Number(q.valor_frete||0),0);
     return {t,cs,del,ont,late,fail,sinistro,quotes,pending,received,eff,slaPct,freight};
@@ -3211,7 +3214,7 @@ body:before{
 <link rel="stylesheet" href="yalog-radar-background.css?v=20261103">
 <link rel="stylesheet" href="radar-layout.css?v=075">
 <link rel="stylesheet" href="yalog-radar-light.css?v=079">
-<link rel="stylesheet" href="radar-contrast.css?v=083">
+<link rel="stylesheet" href="radar-contrast.css?v=084">
 <link rel="stylesheet" href="radar-routing.css?v=078">
 </body>
 </html>

@@ -88,3 +88,11 @@
  #perfKpis .perf-rate{font-size:inherit;padding:0;background:transparent;gap:9px}
  #perfKpis .perf-rate-dot{width:9px;height:9px;flex-basis:9px}
 }
+
+@media screen{
+ #p-performance .performance-toolbar{display:flex;align-items:flex-end;flex-wrap:wrap;gap:14px;margin:0 0 16px}
+ #p-performance .performance-toolbar .fg{flex:0 1 340px;min-width:220px}
+ #p-performance .performance-toolbar select{min-height:40px;width:100%}
+ #performanceScope{flex:1 1 240px;margin:0 0 9px;color:#496977;font-size:12px;line-height:1.5}
+ #p-performance .performance-toolbar .btn{min-height:40px;white-space:normal}
+}
