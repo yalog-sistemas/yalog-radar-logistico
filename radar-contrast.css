@@ -1,0 +1,57 @@
+/* Contrast corrections for the light YALOG interface. Navigation/maps keep their dark palette. */
+@media screen{
+ :root{--muted:#496977!important;--muted2:#496977!important;--orange2:#9a4d18!important}
+ .sub,.muted,.empty,.dash-sub,.dash-mini-note,.dash-head small,.dash-gauge-label,.kl,.sum span,.metric-box span,.fg label{color:#496977!important}
+ .quote-choice{background:#fff!important;color:#173f50!important;border:1px solid #c4d9e3!important;border-radius:9px;padding:16px!important;gap:18px!important}
+ .quote-choice.best{background:#eef7f1!important;border-color:#91bda4!important;box-shadow:inset 4px 0 #18734e!important}
+ .quote-choice .qc-name{display:flex;align-items:center;flex-wrap:wrap;gap:8px;color:#173f50!important;font:750 16px/1.45 'Segoe UI',Arial,sans-serif!important;overflow-wrap:anywhere}
+ .quote-choice .qc-meta{color:#3e6173!important;font:12px/1.7 'Segoe UI',Arial,sans-serif!important;margin-top:6px!important}
+ .quote-choice .qc-meta b{color:#173f50!important;font-weight:750}
+ .quote-choice .qc-score{color:#365f71!important;font:12px/1.6 'Segoe UI',Arial,sans-serif!important;margin-top:6px}
+ .quote-choice.best .qc-score{color:#175e42!important}
+ .quote-choice .qc-actions .btn{font-size:12px!important;min-height:42px;white-space:normal;letter-spacing:0!important}
+ .btn.primary,.radar-auth-card button{background:#b85213!important;border-color:#b85213!important;color:#fff!important}
+ .btn.primary:hover,.radar-auth-card button:hover{background:#963f0c!important;border-color:#963f0c!important}
+ .page .badge,.box .badge{font-size:10px;line-height:1.5}
+ .quote-choice .badge{font-size:10px!important;line-height:1.5;letter-spacing:.02em}
+ .dash-rank{color:#355b6c!important;font:11px/1.55 'Segoe UI',Arial,sans-serif!important;gap:10px}
+ .dash-rank b,.alert-row b,.manual-summary strong{color:#173f50!important}
+ .dash-rank b{overflow-wrap:anywhere}
+ .dash-score{color:#8c4818!important;font-size:12px;font-weight:750}
+ .alert-row{font-size:12px;line-height:1.5}
+ .alert-row span{color:#496977!important}
+ .manual-summary{background:#eef5f8!important;border-color:#c3d8e2!important}
+ .dash-alert .ok{color:#176443!important}
+ .dash-alert .warn{color:#7c5513!important}
+ .dash-alert .bad{color:#a72e3c!important}
+ .dash-cost-meta{border-color:#aa7014!important}
+ .dash-cost-meta span{color:#85540e!important;font-size:10px!important}
+ .radar-scope-empty{color:#496977!important;border-color:#a8c5d2!important;background:#f6fafb}
+ .status-chip{background:#e7f1f8!important;color:#245a79!important;font-size:10px!important;line-height:1.5;border:1px solid #bfd3e1}
+ .status-chip.warn{background:#fff3dc!important;color:#79520c!important;border-color:#dcc28e!important}
+ .status-chip.bad{background:#fce9ed!important;color:#9d2e3d!important;border-color:#e1b5be!important}
+ .box .b-orange,.page .b-orange{background:#fff0df!important;color:#94501b!important}
+ .box .b-green,.page .b-green{background:#e3f2e9!important;color:#146342!important}
+ .box .b-blue,.page .b-blue{background:#e7f1f8!important;color:#245a79!important}
+ .box .b-red,.page .b-red{background:#fce9ed!important;color:#9d2e3d!important}
+ .box .b-amber,.page .b-amber{background:#fff3dc!important;color:#79520c!important}
+ .import-validation.ok{background:#eaf6ee!important;color:#1c6043!important;border-color:#aed0bb!important;font-size:12px!important}
+ .import-validation.warn{background:#fff5e4!important;color:#7d5513!important;border-color:#dec797!important;font-size:12px!important}
+ .import-validation.err{background:#fff0f1!important;color:#9d2d3c!important;border-color:#e1b6bf!important;font-size:12px!important}
+ .import-check .okv{color:#186142!important}
+ .import-check .bad{color:#a52e3d!important}
+ .import-check .mutedv{color:#526e7c!important}
+ .import-template-sub,.import-template-note{color:#496977!important;font:12px/1.6 'Segoe UI',Arial,sans-serif!important}
+ .import-template-cols span{background:#eff5f8!important;color:#315c70!important;border-color:#bfd3df!important;font-size:10px!important}
+ .box table thead th,.import-check table thead th{background:#173f50!important;color:#fff!important;border-color:#426b7e!important}
+ .box table tbody td,.import-check table tbody td{background:#fff!important;color:#244e61!important;border-color:#d5e2e8!important}
+ .box table tbody tr:nth-child(even)>td,.import-check table tbody tr:nth-child(even)>td{background:#f3f7f9!important}
+ .box table tbody tr:hover>td,.import-check table tbody tr:hover>td{background:#e8f3f7!important;color:#173f50!important}
+ .box .link-btn,.page .link-btn{color:#1e607d!important;text-decoration-color:#7ca4b7!important}
+ .box .link-btn:hover,.page .link-btn:hover{color:#173f50!important}
+ .page .table .cell-expandable:hover,.box .cell-expandable:hover{background:#e7f2f7!important;color:#173f50!important}
+ .fg input::placeholder,.fg textarea::placeholder,.box input::placeholder,.box textarea::placeholder{color:#607986!important;opacity:1}
+ .box small:not(.badge):not(.auto-route-distance),.box .sub{color:#496977}
+ .radar-auth-card>div:first-child{color:#216b83!important;font-weight:650}
+ @media(max-width:700px){.quote-choice{grid-template-columns:minmax(0,1fr)!important;padding:13px!important}.quote-choice .qc-actions{justify-content:stretch}.quote-choice .qc-actions .btn{width:100%}.quote-choice .qc-name{font-size:15px!important}}
+}
