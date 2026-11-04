@@ -202,7 +202,7 @@
  window.radarApplyRoutingMetadata=attach;
  window.radarRoadDistance=c=>validSaved(c)?c.road_route.distance_km:null;
  window.radarOpenCargoRoute=id=>{const c=D.cargas.find(c=>c.id===id);if(!c)return toast('Carga não disponível para este acesso.');open(c.nf_ids||[],{kind:'saved',cargoId:c.id,origin:c.origem,originUf:c.uf_origem,plan:c.road_route})};
- window.RadarRoadEngine={bestOrder,fingerprint,pointsFor,printDocument};
+ window.RadarRoadEngine={bestOrder,fingerprint,pointsFor,printDocument,locateCity:coordinate};
  window.radarRenderCarrierCotacao=function(){
   const query=(document.getElementById('cotq')?.value||'').trim().toLowerCase(),rows=D.cargas.filter(c=>!c.faturamento_concluido&&!['CANCELADA','ENTREGA REALIZADA','ENTREGUE COM ATRASO','ENTREGA REALIZADA COM INSUCESSO'].includes(c.status)).filter(c=>!query||[c.numero,c.destino,c.cliente].join(' ').toLowerCase().includes(query));
   const notice=document.getElementById('cotNotice');if(notice)notice.textContent='Cargas disponibilizadas à sua transportadora. Os ajustes de sequência ficam registrados e visíveis para a embarcadora.';
