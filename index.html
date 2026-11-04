@@ -607,7 +607,7 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
 <section id="p-exec" class="page">
   <div class="ey">ETAPA 06 · OPERAÇÃO</div><div class="title">Execução / <em>Entregas</em></div><div class="sub">Fila operacional das cargas já faturadas e liberadas. A transportadora visualiza somente suas cargas e pode tratar a fila em ordem FIFO, da mais antiga para a mais recente.</div>
   <div class="filters"><div class="fg grow"><label>Buscar</label><input id="exq" placeholder="Carga, NF, transportadora, destino..."></div><div class="fg"><label>Status</label><select id="exs"><option value="">Todos</option><option>LIBERADA PARA COLETA</option><option>EM SEPARAÇÃO</option><option>EM CONFERÊNCIA</option><option>AGUARDANDO CARREGAMENTO</option><option>EM PROCESSO DE COLETA</option><option>CARGA EM ROTA</option><option>RISCO DE ATRASO</option><option>ATRASADO</option><option>SINISTRO</option><option>ENTREGA REALIZADA</option><option>ENTREGA REALIZADA COM INSUCESSO</option><option>ENTREGUE COM ATRASO</option><option>OUTROS</option></select></div><div class="fg"><label>Fila</label><select id="exfifo"><option value="FIFO">FIFO · Mais antiga primeiro</option><option value="RECENTE">Mais recente primeiro</option></select></div><button class="btn outline" onclick="renderExec()">Filtrar</button></div>
-  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Destino</th><th>Rota / motorista</th><th>SLA</th><th>Previsão</th><th>Status</th><th>Ocorrência</th><th></th></tr></thead><tbody id="exb"></tbody></table></div>
+  <div class="table"><table><thead><tr><th>Carga</th><th>Transportadora</th><th>Destino</th><th>SLA</th><th>Previsão</th><th>Status</th><th>Ocorrência</th><th>Observações</th><th class="execution-actions-heading">Ações</th></tr></thead><tbody id="exb"></tbody></table></div>
 </section>
 
 
@@ -2512,14 +2512,13 @@ function renderExec(){
     const occ=D.ocorrencias.filter(o=>o.carga_id===c.id).slice(-1)[0];
     return `<tr${executionRowClass(current)}>
       <td>#${c.numero}</td><td>${esc(c.transportadora||'—')}</td><td>${esc(c.destino)}/${esc(c.uf_destino)}</td>
-      <td><button class="btn blue" onclick="radarOpenCargoRoute('${c.id}')">Ver / imprimir rota</button></td><td>${slaLabel(c)}</td><td>${fmtDate(c.eta_max)}</td>
+      <td>${slaLabel(c)}</td><td>${fmtDate(c.eta_max)}</td>
       <td>${executionStatusFarol(current)}</td>
       <td>${occ?.observacao?executionStatusFarol(occ.observacao,'radar-exec-ocorrencia'):'—'}</td>
-      <td><button class="btn outline" onclick="notesDocumentsModal('${c.id}')">NFs / XML / PDF</button></td>
       <td>${cargoNoteSignal(c)} <button class="btn outline" onclick="cargoObservationModal('${c.id}')">${D.config.perfilDemo==='TRANSPORTADORA'?'Adicionar / Ver':'Ver'}</button></td>
-      <td><button class="btn primary" onclick="executionModal('${c.id}')">Atualizar</button></td>
+      <td class="execution-actions-cell"><div class="execution-actions"><button type="button" class="btn blue execution-route-action" onclick="radarOpenCargoRoute('${c.id}')">Ver / imprimir rota</button><button type="button" class="btn outline" onclick="notesDocumentsModal('${c.id}')">NFs / XML / PDF</button><button type="button" class="btn primary" onclick="executionModal('${c.id}')">Atualizar</button></div></td>
     </tr>`;
-  }).join(''):'<tr><td colspan="11"><div class="empty">Nenhuma carga em execução.</div></td></tr>';
+  }).join(''):'<tr><td colspan="9"><div class="empty">Nenhuma carga em execução.</div></td></tr>';
   save();
 }
 
@@ -3211,7 +3210,7 @@ body:before{
 <link rel="stylesheet" href="yalog-radar-background.css?v=20261103">
 <link rel="stylesheet" href="radar-layout.css?v=075">
 <link rel="stylesheet" href="yalog-radar-light.css?v=079">
-<link rel="stylesheet" href="radar-contrast.css?v=080">
+<link rel="stylesheet" href="radar-contrast.css?v=081">
 <link rel="stylesheet" href="radar-routing.css?v=078">
 </body>
 </html>

@@ -55,3 +55,12 @@
  .radar-auth-card>div:first-child{color:#216b83!important;font-weight:650}
  @media(max-width:700px){.quote-choice{grid-template-columns:minmax(0,1fr)!important;padding:13px!important}.quote-choice .qc-actions{justify-content:stretch}.quote-choice .qc-actions .btn{width:100%}.quote-choice .qc-name{font-size:15px!important}}
 }
+
+@media screen{
+ #p-exec .execution-actions-heading,#p-exec .execution-actions-cell{width:410px!important;min-width:410px!important;box-sizing:border-box}
+ #p-exec .execution-actions-cell{padding:9px!important;overflow:visible!important}
+ #p-exec .execution-actions{display:flex;align-items:center;justify-content:flex-start;gap:6px;flex-wrap:wrap}
+ #p-exec .execution-actions .btn{flex:0 0 auto;white-space:nowrap;min-height:36px;padding:8px 10px!important;letter-spacing:0!important}
+ #p-exec .execution-route-action{background:#e8f2f7!important;color:#1c556f!important;border-color:#93b8c9!important}
+ @media(max-width:700px){#p-exec .execution-actions-heading,#p-exec .execution-actions-cell{width:240px!important;min-width:240px!important}#p-exec .execution-route-action{flex:1 1 100%!important}#p-exec .execution-actions .btn{padding:7px!important;font-size:10px!important}}
+}
