@@ -96,3 +96,19 @@
  #performanceScope{flex:1 1 240px;margin:0 0 9px;color:#496977;font-size:12px;line-height:1.5}
  #p-performance .performance-toolbar .btn{min-height:40px;white-space:normal}
 }
+
+@media screen{
+ .performance-analytics{margin-top:18px}
+ .performance-analytic-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+ .performance-analytic-head h2{margin:0;font-size:18px;color:#173f50}
+ .performance-analytic-head>span,.performance-analytic-note{color:#496977;font-size:12px;line-height:1.6}
+ .performance-analytic-note{margin:9px 0 12px}
+ #performanceAnalytics .performance-analytic-table{max-height:55dvh;overflow:auto;position:relative}
+ #performanceAnalytics table{min-width:1300px}
+ #performanceAnalytics th:last-child,#performanceAnalytics td:last-child{position:static!important;box-shadow:none!important}
+ #performanceAnalytics td{white-space:normal;vertical-align:top;line-height:1.5}
+ #performanceAnalytics .analytic-invoices{min-width:145px;max-width:260px;overflow-wrap:anywhere}
+ .analytic-status{display:inline-block;padding:4px 7px;border-radius:4px;font-size:11px;font-weight:650;color:#245d86;background:#edf4fb}
+ .analytic-status.success{background:#eaf6ee;color:#1b6847}.analytic-status.danger{background:#fcecee;color:#a22e3e}.analytic-status.warning{background:#fff4df;color:#7b5512}
+ #performanceExportStatus{flex:1 1 100%;font-size:12px;color:#496977}#performanceExportStatus:empty{display:none}
+}
