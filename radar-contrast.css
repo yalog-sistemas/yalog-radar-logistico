@@ -64,3 +64,15 @@
  #p-exec .execution-route-action{background:#e8f2f7!important;color:#1c556f!important;border-color:#93b8c9!important}
  @media(max-width:700px){#p-exec .execution-actions-heading,#p-exec .execution-actions-cell{width:240px!important;min-width:240px!important}#p-exec .execution-route-action{flex:1 1 100%!important}#p-exec .execution-actions .btn{padding:7px!important;font-size:10px!important}}
 }
+
+@media screen{
+ #perfKpis .perf-kpi{--perf-bg:#edf4fb;--perf-accent:#245d86;--perf-border:#bdd2e5;background:var(--perf-bg)!important;border-color:var(--perf-border)!important;box-shadow:0 2px 8px #193f5008!important}
+ #perfKpis .perf-kpi[data-tone=success]{--perf-bg:#eaf6ee;--perf-accent:#1b6847;--perf-border:#b2d6bf}
+ #perfKpis .perf-kpi[data-tone=warning]{--perf-bg:#fff4df;--perf-accent:#7b5512;--perf-border:#e0c48c}
+ #perfKpis .perf-kpi[data-tone=danger]{--perf-bg:#fcecee;--perf-accent:#a22e3e;--perf-border:#e3b6be}
+ #perfKpis .perf-kpi[data-tone=teal]{--perf-bg:#e8f5f5;--perf-accent:#21656b;--perf-border:#afd1d4}
+ #perfKpis .perf-kpi::before{background:var(--perf-accent)!important;width:4px!important}
+ #perfKpis .perf-kpi .kv,#perfKpis .perf-kpi .perf-icon{color:var(--perf-accent)!important}
+ #perfKpis .perf-kpi .kl{color:#3f5f6f!important;font-size:10px!important;line-height:1.5!important;font-weight:600}
+ #perfKpis .perf-icon{font-size:16px;line-height:1.4}
+}
