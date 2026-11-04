@@ -1,0 +1,37 @@
+#radarRoadDialog{width:min(1260px,96vw);max-height:94vh;padding:0;border:1px solid #b6cdd7;border-radius:12px;background:#f5f9fb;color:#193f50;font:14px/1.5 'Segoe UI',Arial,sans-serif;overflow:auto;box-shadow:0 18px 70px #122f3b55}
+#radarRoadDialog::backdrop{background:#102f43bb}
+#radarRoadDialog .road-heading{position:sticky;top:0;z-index:1001;display:flex;justify-content:space-between;align-items:center;gap:18px;padding:18px 22px;background:#173f50;color:#fff}
+#radarRoadDialog h2{color:#fff!important;margin:2px 0 0;font-size:22px}
+#radarRoadDialog .road-heading small{color:#f5ae77;font-size:10px;letter-spacing:.1em;font-weight:700}
+#radarRoadDialog button{cursor:pointer;border:1px solid #b1c8d2;border-radius:5px;background:#fff;color:#193f50;padding:8px 12px;font:inherit}
+#radarRoadDialog button:disabled{opacity:.55;cursor:default}
+#radarRoadDialog button:focus-visible,#radarRoadDialog select:focus-visible{outline:3px solid #f08a40;outline-offset:2px}
+#radarRoadDialog .btn.primary{background:#ed7b2a!important;color:#fff!important;border-color:#ed7b2a!important}
+#radarRoadDialog .road-grid{display:grid;grid-template-columns:360px 1fr;gap:18px;padding:20px}
+#radarRoadDialog .road-side,#radarRoadDialog .road-main{min-width:0}
+#radarRoadDialog .road-origin{background:#e8f0f4;padding:12px 14px;border-radius:7px}
+#radarRoadDialog .road-origin small,#radarRoadDialog .road-origin strong{display:block}
+#radarRoadDialog .road-first{display:grid;gap:6px;margin:15px 0;font-size:12px;font-weight:650}
+#radarRoadDialog select{padding:10px;border:1px solid #adc5d0;border-radius:5px;background:#fff;color:#193f50;font:14px 'Segoe UI',Arial}
+#radarRoadDialog .road-distance{padding:14px 0}
+#radarRoadDialog .road-distance strong{font-size:30px;color:#173f50;display:block;line-height:1.3}
+#radarRoadDialog .road-distance span{font-size:12px;color:#547483}
+#radarRoadDialog #roadStatus{font-size:12px;color:#376477;min-height:34px}
+#radarRoadDialog #roadStatus.error{color:#ac2f3a}
+#radarRoadDialog #roadStops{list-style:none;padding:0;margin:12px 0;max-height:390px;overflow:auto}
+#radarRoadDialog #roadStops li{display:flex;align-items:center;gap:8px;margin:8px 0;padding:10px;background:#fff;border:1px solid #d2e0e6;border-radius:7px}
+#radarRoadDialog #roadStops li>div{flex:1;min-width:0}
+#radarRoadDialog #roadStops strong{display:block;font-size:13px}
+#radarRoadDialog #roadStops small{display:block;font-size:10px;color:#5b7785;overflow-wrap:anywhere}
+#radarRoadDialog .road-stop-number{width:25px;height:25px;flex:0 0 25px;border-radius:50%;background:#1d6079;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:750}
+#radarRoadDialog #roadStops button{padding:5px 8px}
+#radarRoadDialog .road-leg{white-space:nowrap}
+#radarRoadDialog #roadMap{height:440px;min-height:320px;background:#e4eef2;border:1px solid #b5cdd7;border-radius:8px;color:#2f596c}
+#radarRoadDialog .road-note{color:#587786;font-size:11px;line-height:1.6}
+#radarRoadDialog .actions{gap:8px;margin:12px 0}
+#radarRoadDialog .road-pin span{display:grid;place-items:center;background:#ed7b2a;color:#fff;border:2px solid white;border-radius:50%;width:28px;height:28px;font:bold 13px 'Segoe UI',Arial;box-shadow:0 2px 7px #173f5040}
+#radarRoadDialog .leaflet-control-attribution{font-size:10px}
+#radarRoadDialog .leaflet-popup-content{color:#193f50}
+#radarRoadDialog [hidden]{display:none!important}
+@media(max-width:800px){#radarRoadDialog .road-grid{grid-template-columns:1fr;padding:14px}#radarRoadDialog #roadMap{height:340px}#radarRoadDialog #roadStops{max-height:230px}#radarRoadDialog .road-heading{padding:14px}#radarRoadDialog h2{font-size:18px}}
+@media print{#radarRoadDialog{display:none!important}}
