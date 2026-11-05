@@ -504,7 +504,7 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
 </div>
 <div class="app">
 <aside class="sb">
-  <div class="logo">YA<span>Log</span><small>GESTÃO DE FRETES &amp; CARGAS · MVP V039</small></div>
+  <div class="logo" id="radarCompanyBrand"><span id="radarBrandLogo" class="radar-brand-logo">YA<span>Log</span></span><span class="radar-brand-text"><strong id="radarBrandName">YALog OS®</strong><small>Radar Logístico</small></span></div>
   <nav class="nav">
     <button class="ni on" data-p="home">① &nbsp; Inclusão de Pedidos Liberados <b id="nn">0</b></button>
     <button class="ni" data-p="form">② &nbsp; Formação / Roteirização</button>
@@ -719,7 +719,17 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
 
 <section id="p-config" class="page">
   <div class="ey">ADMINISTRAÇÃO</div><div class="title">Configurações</div><div class="sub">Cadastros e parâmetros do processo de frete. A embarcadora define requisitos da carga; a transportadora executa o transporte.</div>
-  <div id="configDemoData" class="card"></div>
+  <section id="radarBrandSettings" class="card" style="margin-bottom:15px">
+ <div class="head"><div><div class="ct">Identidade visual da empresa</div><div class="dash-sub">Personalize o cabeçalho do Radar. A marca YALog OS® permanece no rodapé.</div></div></div>
+ <div id="radarBrandReadonly" class="notice" style="display:none">Somente o MASTER da empresa pode alterar a identidade visual.</div>
+ <div class="radar-brand-settings-grid">
+  <div class="fg grow"><label for="radarBrandInput">Nome de exibição da empresa</label><input id="radarBrandInput" maxlength="120" autocomplete="organization" placeholder="Nome da empresa"></div>
+  <div class="fg grow"><label for="radarBrandFile">Logotipo (PNG, JPG ou WebP, até 256 KB)</label><input id="radarBrandFile" type="file" accept="image/png,image/jpeg,image/webp" onchange="radarBrandSelectLogo(event)"></div>
+  <div class="radar-brand-preview"><span id="radarBrandPreviewLogo">YA<span style="color:#ff8b00">Log</span></span><div><strong id="radarBrandPreviewName">YALog OS®</strong><small>Radar Logístico</small></div></div>
+  <div class="radar-brand-actions"><button class="btn primary" id="radarBrandSave" onclick="radarBrandSave()">Salvar identidade</button><button class="btn outline" id="radarBrandRestore" onclick="radarBrandRestore()">Restaurar padrão</button><span id="radarBrandStatus" role="status" aria-live="polite"></span></div>
+ </div>
+</section>
+<div id="configDemoData" class="card"></div>
   <div class="card" style="margin-top:15px" id="radarUserAdmin">
     <div class="head"><div><div class="ct">Usuários internos do Radar</div><div class="dash-sub">Crie e administre acessos individuais desta empresa. A autorização é validada no servidor.</div></div><button class="btn outline" onclick="radarRenderUsers()">Atualizar usuários</button></div>
     <div class="notice" style="margin:10px 0">Disponível para perfis administradores autorizados. Esta tela não cria usuários MASTER nem acessos de transportadoras.</div>
@@ -2812,6 +2822,7 @@ async function radarBootAuthenticated(){
     identity.appendChild(logoutButton);
     (document.querySelector('.sb')||document.body).appendChild(identity);
     renderAll();
+    await radarLoadBranding().catch(e=>{console.warn("[RADAR] Identidade visual indisponível:",e);radarBrandMessage("Não foi possível carregar a identidade visual.");});
     installRadarRouting();
     installRadarAccess();
     installRadarDeliveries();
@@ -3186,5 +3197,92 @@ body:before{
 <link rel="stylesheet" href="yalog-radar-light.css?v=079">
 <link rel="stylesheet" href="radar-contrast.css?v=086">
 <link rel="stylesheet" href="radar-routing.css?v=078">
+
+<style id="radar-branding-v1">
+#radarCompanyBrand.logo{display:flex!important;align-items:center;gap:10px;min-width:210px;max-width:280px;overflow:hidden;padding:9px 14px}
+.radar-brand-logo{display:flex;align-items:center;justify-content:center;flex:0 0 52px;width:52px;height:48px;font-size:17px;font-weight:900;line-height:1;background:rgba(255,255,255,.08);border-radius:7px;overflow:hidden;color:#fff}
+.radar-brand-logo img{width:100%;height:100%;object-fit:contain;background:#fff;padding:3px;border-radius:6px}
+.radar-brand-text{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1}
+#radarBrandName{font-size:13px;line-height:1.2;color:#fff;overflow-wrap:anywhere;max-height:3.6em;overflow:hidden}
+#radarCompanyBrand .radar-brand-text small{display:block!important;margin:0!important;font-size:10px!important;letter-spacing:.03em!important;color:#8bd8e8!important;line-height:1.2}
+.radar-brand-settings-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:end}
+.radar-brand-preview{display:flex;align-items:center;gap:12px;border:1px solid rgba(0,216,245,.3);border-radius:10px;padding:12px;background:rgba(0,216,245,.05);min-height:70px}
+#radarBrandPreviewLogo{width:70px;height:50px;display:grid;place-items:center;overflow:hidden;font-weight:900;border-radius:6px;background:#14394a}
+#radarBrandPreviewLogo img{width:100%;height:100%;object-fit:contain;background:#fff;padding:3px}
+.radar-brand-preview strong{display:block;overflow-wrap:anywhere}.radar-brand-preview small{display:block;margin-top:4px;color:#8bd8e8}
+.radar-brand-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+#radarBrandStatus{font-size:11px;color:#8bd8e8}
+#radarInstitutionalFooter{padding:16px 18px;text-align:center;color:#789eae;font-size:11px;border-top:1px solid rgba(0,216,245,.15);margin:18px 20px 0}
+@media(max-width:800px){#radarCompanyBrand.logo{min-width:160px;max-width:190px;padding:8px}.radar-brand-logo{flex-basis:42px;width:42px;height:42px}.radar-brand-settings-grid{grid-template-columns:1fr}}
+@media print{#radarInstitutionalFooter{display:block!important;color:#526c78!important;font-size:9px}}
+</style>
+<script id="radar-branding-v1-script">
+let radarBrandCurrent=null,radarBrandDraftLogo=null;
+function radarBrandMessage(message){const e=document.getElementById('radarBrandStatus');if(e)e.textContent=message||''}
+function radarBrandSetImage(target,data,fallback){
+ const el=document.getElementById(target);if(!el)return;el.replaceChildren();
+ if(data&&/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(data)){const img=document.createElement('img');img.src=data;img.alt='Logotipo da empresa';el.appendChild(img)}
+ else if(fallback){const strong=document.createElement('strong');strong.textContent='YALog';el.appendChild(strong)}
+}
+function radarBrandPreview(){
+ const name=(document.getElementById('radarBrandInput')?.value||'').trim()||'YALog OS®';
+ const title=document.getElementById('radarBrandPreviewName');if(title)title.textContent=name;
+ radarBrandSetImage('radarBrandPreviewLogo',radarBrandDraftLogo,true);
+}
+function radarBrandApply(brand){
+ radarBrandCurrent=brand||{};
+ const name=brand?.display_name||'YALog OS®';
+ const title=document.getElementById('radarBrandName');if(title)title.textContent=name;
+ radarBrandSetImage('radarBrandLogo',brand?.logo_data,true);
+ const input=document.getElementById('radarBrandInput');if(input)input.value=name;
+ radarBrandDraftLogo=brand?.logo_data||null;
+ const file=document.getElementById('radarBrandFile');if(file)file.value='';
+ const allowed=radarProfile==='MASTER';
+ for(const id of ['radarBrandInput','radarBrandFile','radarBrandSave','radarBrandRestore']){const el=document.getElementById(id);if(el)el.disabled=!allowed}
+ const notice=document.getElementById('radarBrandReadonly');if(notice)notice.style.display=allowed?'none':'block';
+ radarBrandPreview();
+}
+async function radarLoadBranding(){
+ if(!radarModuleSessionToken)return;
+ const data=await radarRpc('radar_identidade_empresa',{p_token:radarModuleSessionToken});
+ if(data?.company_id!==radarCompanyId)throw Error('Identidade visual pertence a outra empresa.');
+ radarBrandApply(data);
+ radarBrandMessage('');
+}
+function radarBrandSelectLogo(event){
+ const file=event.target.files?.[0];if(!file)return;
+ if(!['image/png','image/jpeg','image/webp'].includes(file.type)||file.size>262144){event.target.value='';radarBrandMessage('Use PNG, JPG ou WebP com até 256 KB.');return}
+ const reader=new FileReader();
+ reader.onload=()=>{radarBrandDraftLogo=String(reader.result||'');radarBrandPreview();radarBrandMessage('Pré-visualização pronta. Clique em Salvar.')};
+ reader.onerror=()=>radarBrandMessage('Falha ao ler o logotipo.');
+ reader.readAsDataURL(file);
+}
+async function radarBrandSave(){
+ if(radarProfile!=='MASTER'){radarBrandMessage('Apenas o MASTER pode salvar.');return}
+ const name=document.getElementById('radarBrandInput')?.value.trim();
+ if(!name||name.length<2||name.length>120){radarBrandMessage('Informe um nome de 2 a 120 caracteres.');return}
+ const button=document.getElementById('radarBrandSave');button.disabled=true;radarBrandMessage('Salvando...');
+ try{
+  const result=await radarRpc('radar_salvar_identidade',{p_token:radarModuleSessionToken,p_display_name:name,p_logo_data:radarBrandDraftLogo});
+  if(!result?.ok||result.branding?.company_id!==radarCompanyId)throw Error('Confirmação da empresa não recebida.');
+  radarBrandApply(result.branding);radarBrandMessage('Identidade visual salva com sucesso.');
+ }catch(e){radarBrandMessage('Erro ao salvar: '+e.message)}finally{button.disabled=false}
+}
+async function radarBrandRestore(){
+ if(radarProfile!=='MASTER')return;
+ if(!confirm('Restaurar a identidade padrão YALog OS® nesta empresa?'))return;
+ const input=document.getElementById('radarBrandInput');if(input)input.value='YALog OS®';
+ radarBrandDraftLogo=null;radarBrandPreview();await radarBrandSave();
+}
+document.getElementById('radarBrandInput')?.addEventListener('input',radarBrandPreview);
+(function(){
+ const main=document.querySelector('main.main');
+ if(main&&!document.getElementById('radarInstitutionalFooter')){
+  const footer=document.createElement('footer');footer.id='radarInstitutionalFooter';
+  footer.textContent='YALog OS® • Sistema Integrado de Gestão Logística Modular — Radar Logístico';
+  main.appendChild(footer);
+ }
+})();
+</script>
 </body>
 </html>
