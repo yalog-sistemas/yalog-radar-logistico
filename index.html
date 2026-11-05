@@ -476,6 +476,8 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
 @keyframes yalog-entry-reveal{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){html.yalog-entering::after{animation:none}}
 </style>
+<link rel="stylesheet" href="radar-help.css?v=089">
+<script src="radar-help.js?v=089"></script>
 </head>
 <body>
 <div id="radarAuthGate" class="radar-auth-gate">
@@ -517,62 +519,24 @@ html.yalog-entering::after{content:'YALOG · Abrindo seu ambiente…';position:f
   <div class="foot"><b>YALog OS</b><br>Gestão de Cargas · MVP funcional local<br><span class="pill"><i class="dot"></i> Persistência compartilhada · Supabase</span></div>
 </aside>
 <main class="main">
-<header class="top"><h2 id="pt">Inclusão de Pedidos Liberados</h2><div class="quick-search"><input id="quickSearch" placeholder="Busca rápida: pedido, carga, cliente, destino..." autocomplete="off" oninput="quickSearch(this.value)" onkeydown="if(event.key==='Escape')closeQuickSearch()"><span class="qs-icon">⌕</span><div id="quickResults" class="quick-results"></div></div><div style="display:flex;align-items:center;gap:12px"><span id="radarRoleBadge" style="display:none;border:1px solid rgba(0,216,245,.3);border-radius:8px;padding:7px 9px;color:#9fc1ce;font:9px var(--mono)"></span><span class="clock" id="clock"></span></div></header>
+<header class="top"><h2 id="pt">Inclusão de Pedidos Liberados</h2><div class="quick-search"><input id="quickSearch" placeholder="Busca rápida: pedido, carga, cliente, destino..." autocomplete="off" oninput="quickSearch(this.value)" onkeydown="if(event.key==='Escape')closeQuickSearch()"><span class="qs-icon">⌕</span><div id="quickResults" class="quick-results"></div></div><div style="display:flex;align-items:center;gap:12px"><span id="radarRoleBadge" style="display:none;border:1px solid rgba(0,216,245,.3);border-radius:8px;padding:7px 9px;color:#9fc1ce;font:9px var(--mono)"></span><button type="button" class="btn outline" id="radarHelpButton" onclick="radarOpenHelp()" aria-haspopup="dialog">Ajuda?</button><span class="clock" id="clock"></span></div></header>
 <div class="content">
 
 <section id="p-home" class="page on">
-  <div class="notice">MVP V040 — fluxo operacional: Pedidos Liberados → Formação → Cotação → Status de Fretes → Faturamento → Execução → Dashboards → Performance → Configurações.</div>
-  <div class="hero">
+  <div class="hero entry-workspace">
     <div class="ey">ETAPA 01 · EMBARCADORA</div>
     <h1>Inclusão de Pedidos Liberados</h1>
-    <p>Entrada dos pedidos liberados pela área comercial. Esta tela é exclusivamente operacional: importar, cadastrar, consultar e preparar os pedidos que serão levados para a formação de cargas.</p>
+    <div class="operational-count"><span><b id="nfEntryCount">0</b> pedido(s)/item(ns) carregado(s)</span></div>
     <div class="actions" id="nf-entry">
       <input id="xml" type="file" accept=".xlsx,.csv,.txt,.xml,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,text/plain,application/xml,text/xml" multiple hidden>
-      <button class="btn primary" onclick="document.getElementById('xml').click()">＋ Importar Template</button><span class="muted" style="align-self:center">Excel/XLSX ou CSV/TXT padronizado · 1 linha por produto do pedido</span>
-      <button class="btn outline" onclick="downloadPedidoTemplate()">⇩ Baixar Template</button>
-      <button class="btn outline" onclick="showTemplateGuide()">ⓘ Como preencher</button>
-      <button class="btn outline" onclick="nfModal()">＋ Pedido Manual</button>
-      <button class="btn blue" onclick="show('form')">② Ir para Formação / Roteirização →</button>
-      <button class="btn outline" onclick="seed()">⚙ Carregar Dados de Teste</button>
+      <button class="btn primary" onclick="document.getElementById('xml').click()">＋ Importar template</button>
+      <button class="btn outline" onclick="downloadPedidoTemplate()">⇩ Baixar template</button>
+      <button class="btn outline" onclick="nfModal()">＋ Pedido manual</button>
     </div>
     <div id="xp" style="margin-top:12px"></div>
-  </div>
-  <div class="stage1-import-tools">
-    <div class="import-template-card">
-      <div class="import-template-head">
-        <div>
-          <div class="import-template-title">Template oficial de importação</div>
-          <div class="import-template-sub">Cada cliente pode extrair os dados do ERP no formato que possuir e colar somente os dados nas colunas equivalentes do template YALog. As colunas fora do padrão não precisam ser importadas.</div>
-        </div>
-        <span class="dash-tag">PADRÃO YALOG</span>
-      </div>
-      <div class="import-template-cols">
-        <span>Filial</span><span>Nº Pedido</span><span>Data Lib. Pedido</span><span>SKU</span><span>Descrição Produto</span><span>UM</span><span>Cliente</span><span>Cidade Destino</span><span>UF</span><span>Lote</span><span>Qtde a Faturar</span><span>Preço Unitário</span><span>Peso Bruto</span><span>Valor Total</span>
-      </div>
-      <div class="import-template-actions">
-        <button class="btn primary" onclick="downloadPedidoTemplate()">⇩ Baixar template CSV</button>
-        <button class="btn outline" onclick="downloadPedidoTemplate(true)">⇩ Baixar exemplo preenchido</button>
-      </div>
-      <div class="import-template-note"><b>Regra:</b> não altere os nomes das 14 colunas do cabeçalho. Você pode copiar e colar os dados do ERP a partir da segunda linha. Colunas adicionais do arquivo serão ignoradas.</div>
-    </div>
-    <div class="import-template-card">
-      <div class="import-template-title">Padrão de preenchimento</div>
-      <div class="import-template-sub">O importador aceita Excel (.xlsx), CSV e TXT e normaliza automaticamente datas e números. Para Excel, a data pode permanecer como data nativa do arquivo.</div>
-      <div class="import-template-note">
-        <b>Data:</b> DD/MM/AAAA, AAAA-MM-DD ou data nativa do Excel (serial)<br>
-        <b>Quantidade:</b> número<br>
-        <b>Preço / Valor:</b> aceita 1.234,56 ou 1234.56<br>
-        <b>Peso:</b> em kg<br>
-        <b>UF:</b> sigla com 2 caracteres<br>
-        <b>SKU:</b> código do produto no ERP<br><b>Descrição Produto:</b> descrição comercial do SKU
-      </div>
-      <div id="templateValidation" class="import-validation"></div>
-    </div>
-  </div>
-  <div class="notice" style="margin-top:12px"><b>Entrada operacional:</b> após a validação, os pedidos ficam disponíveis para a formação de cargas e são acompanhados na visão <b>Gestão de Pedidos</b>, dentro de <b>Dashboards</b>. Esta etapa permanece dedicada exclusivamente à inclusão, validação e preparação dos pedidos.</div>
-  <div class="card">
-    <div class="head"><div><div class="ct">Próxima etapa</div><div class="dash-sub">Pedido validado e pronto para seguir no fluxo operacional.</div></div><div class="actions"><button class="btn blue" onclick="show('form')">② IR PARA FORMAÇÃO / ROTEIRIZAÇÃO</button><button class="btn outline" onclick="show('dash');setDashView('pedidos')">▤ ABRIR GESTÃO DE PEDIDOS</button></div></div>
-    <div class="operational-count"><span><b id="nfEntryCount">0</b> pedido(s)/item(ns) carregado(s)</span><span>Para consultar, filtrar e acompanhar o ciclo dos pedidos, use <b>Dashboards → Gestão de Pedidos</b>.</span></div>
+    <div id="templateValidation" class="import-validation" role="status" aria-live="polite"></div>
+    <div class="entry-navigation"><button class="btn blue" onclick="show('form')">Ir para Formação / Roteirização →</button><button class="btn outline" onclick="show('dash');setDashView('pedidos')">Abrir Gestão de Pedidos</button></div>
+    <details class="entry-other"><summary>Outras ações</summary><div class="actions"><button class="btn outline" onclick="seed()">Carregar dados de teste</button></div></details>
   </div>
 </section>
 
@@ -2851,6 +2815,7 @@ async function radarBootAuthenticated(){
     installRadarRouting();
     installRadarAccess();
     installRadarDeliveries();
+    installRadarHelp();
     document.documentElement.classList.remove('yalog-entering');
     show(D.config?.perfilDemo==='TRANSPORTADORA'?'cotacao':'home');
     initResponsiveNumberObserver();
